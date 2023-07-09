@@ -1,0 +1,31 @@
+.profile {
+    display: flex;
+    position: absolute;
+    bottom: 20px;
+    padding: 10px;
+    padding-right: 25px;
+    align-items: center;
+    cursor: pointer;
+}
+.profile__displayName {
+    margin-left: 15px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.profile__username {
+    margin-top: 18px;
+    color: rgb(116, 116, 116);
+    font-weight: 500;
+    position: absolute;
+    margin-left: 55px;
+    margin-right: 5px;
+}
+
+.profile:hover {
+    background-color: var(--twitter-background);
+    border-radius: 40px;
+    padding: 10px;
+    padding-right: 40px;
+    transition: background-color 50ms ease-out;
+}
