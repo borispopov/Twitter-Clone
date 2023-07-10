@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import "./TweetBox.css"
-import { Avatar, Button } from "@material-ui/core";
+// import { Avatar, Button } from "@material-ui/core";
 import db from "./firebase";
 import { serverTimestamp} from 'firebase/firestore';
 
@@ -13,7 +13,7 @@ function TweetBox() {
     e.preventDefault();
 
     if(tweetMessage !=="") {
-      
+
     db.collection("posts").add({
       displayName: "Boris Popov",
       username: "popov",
@@ -34,25 +34,25 @@ function TweetBox() {
     <div className="tweetBox">
         <form>
             <div className="tweetBox__input">
-                <Avatar src="https://sloanreview.mit.edu/wp-content/uploads/2019/07/FL-Ready-Curiosity-Leadership-2400-1.jpg"/>
-                <input 
-                  onChange={e => setTweetMessage(e.target.value)} 
+                {/* <Avatar src="https://sloanreview.mit.edu/wp-content/uploads/2019/07/FL-Ready-Curiosity-Leadership-2400-1.jpg"/> */}
+                <input
+                  onChange={e => setTweetMessage(e.target.value)}
                   value={tweetMessage}
-                  placeholder="What's happening?" 
+                  placeholder="What's happening?"
                   type="text"/>
             </div>
-            <input 
-              value={tweetImage} 
-              onChange={e => setTweetImage(e.target.value)} 
-              className="tweetBox__ImageInput" 
-              placeholder="Optional: Enter Image URL" 
+            <input
+              value={tweetImage}
+              onChange={e => setTweetImage(e.target.value)}
+              className="tweetBox__ImageInput"
+              placeholder="Optional: Enter Image URL"
               type="text"/>
 
-            <Button 
-              onClick={sendTweet} 
-              type="submit" 
+            {/* <Button
+              onClick={sendTweet}
+              type="submit"
               className="tweetBox__tweetButton">Tweet
-            </Button>
+            </Button> */}
         </form>
     </div>
   );

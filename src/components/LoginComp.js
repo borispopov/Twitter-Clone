@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react'
-import {Button} from "@material-ui/core"
+// import {Button} from "@material-ui/core"
 import db from "./firebase"
 import {collection, addDoc, setDoc, doc} from "firebase/firestore"
 import { getAuth, onAuthStateChanged } from "firebase/auth"
@@ -42,7 +42,7 @@ const LoginComp = (props) => {
 
         <div className="loginContainer">
             <h2>Welcome</h2>
-            
+
             <div className="btnContainer">
                 {hasAccount ? (
                     <>
@@ -52,7 +52,7 @@ const LoginComp = (props) => {
                     <label>Password</label>
                     <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
                     <p className="errorMsg">{passwordError}</p>
-                    <Button className="sign__in" onClick={handleLogin}>Sign In</Button>
+                    <button className="sign__in" onClick={handleLogin}>Sign In</button>
                     <p>Don't Have an Account? <span onClick={() => setHasAccount(!hasAccount)}>Sign Up</span></p>
                     </>
 
@@ -70,7 +70,7 @@ const LoginComp = (props) => {
                     <label>Password</label>
                     <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
                     <p className="errorMsg">{passwordError}</p>
-                    <Button className="sign__up" onClick={() => {handleError(); handleSignup(); if (username.length > 2 && name.length > 0 ) createUser()}}>Sign Up</Button>
+                    <button className="sign__up" onClick={() => {handleError(); handleSignup(); if (username.length > 2 && name.length > 0 ) createUser()}}>Sign Up</button>
                     <p>Have an Account? <span onClick={() => setHasAccount(!hasAccount)}>Sign In</span></p>
                     </>
 

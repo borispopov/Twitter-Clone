@@ -1,5 +1,5 @@
 import React, { useState, useEffect }from 'react'
-import { Avatar, Button } from "@material-ui/core";
+// import { Avatar, Button } from "@material-ui/core";
 import "./Modal.css"
 import db from "./firebase"
 // import firebase from "./firebase"
@@ -33,7 +33,7 @@ function Modal({closeModal, username, displayName, avatar}) {
           setUsernameEdit("");
           setDisplayNameEdit("");
         }
-        
+
       };
 
   return (
@@ -46,22 +46,22 @@ function Modal({closeModal, username, displayName, avatar}) {
                 <h1>Edit Profile</h1>
             </div>
             {/* <div className="avatar__edit">
-                <Avatar onChange={e => setAvatar(e.target.value)} 
+                <Avatar onChange={e => setAvatar(e.target.value)}
                   value={avatar1}
                   type="image"/>
             </div> */}
             <div className="displayName__edit">
               <label >Name </label>
-            <input 
-              onChange={e => setDisplayNameEdit(e.target.value)} 
+            <input
+              onChange={e => setDisplayNameEdit(e.target.value)}
               value={displayNameEdit}
               placeholder="Name"
               type="text"/>
             </div>
             <div className="username__edit">
             <label >Username </label>
-            <input 
-              onChange={e => setUsernameEdit(e.target.value)} 
+            <input
+              onChange={e => setUsernameEdit(e.target.value)}
               value={usernameEdit}
               placeholder="Username"
               type="text"/>
@@ -69,8 +69,8 @@ function Modal({closeModal, username, displayName, avatar}) {
             </div>
 
             <div className="footer">
-                <Button onClick={() => closeModal(false)} id="cancelBtn">Cancel</Button>
-                <Button onClick={() => {setProfile(); if (usernameEdit.length > 2 && displayNameEdit !== "") closeModal(false); handleError()}} type="submit">Save</Button>
+                {/* <Button onClick={() => closeModal(false)} id="cancelBtn">Cancel</Button>
+                <Button onClick={() => {setProfile(); if (usernameEdit.length > 2 && displayNameEdit !== "") closeModal(false); handleError()}} type="submit">Save</Button>*/}
             </div>
         </div>
     </div>

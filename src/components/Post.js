@@ -1,18 +1,18 @@
 import React, { forwardRef } from 'react'
 import "./Post.css";
-import { Avatar } from '@material-ui/core';
-import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
-import ChatBubbleOutlineIcon  from '@material-ui/icons/ChatBubbleOutline';
-import RepeatIcon from '@material-ui/icons/Repeat';
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
+// import { Avatar } from '@material-ui/core';
+// import VerifiedUserIcon from '@material-ui/icons/VerifiedUser';
+// import ChatBubbleOutlineIcon  from '@material-ui/icons/ChatBubbleOutline';
+// import RepeatIcon from '@material-ui/icons/Repeat';
+// import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+// import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
 
 const Post = forwardRef(({ displayName, username, verified, text, image, avatar}, ref) => {
     return (
 
     <div className="post" ref={ref}>
         <div className="post__avatar">
-            <Avatar src={avatar} />
+            {/* <Avatar src={avatar} /> */}
         </div>
         <div className="post__body">
             <div className="post__header">
@@ -20,7 +20,7 @@ const Post = forwardRef(({ displayName, username, verified, text, image, avatar}
                     <h3>
                         {displayName}{" "}
                         <span className="post__headerSpecial">
-                            {verified && <VerifiedUserIcon className="post__badge" />} @{username}
+                            {/* {verified && <VerifiedUserIcon className="post__badge" />} @{username} */}
                         </span>
                     </h3>
                 </div>
@@ -30,10 +30,10 @@ const Post = forwardRef(({ displayName, username, verified, text, image, avatar}
             </div>
             <img src={image} alt=""/>
             <div className="post__footer">
-                <ChatBubbleOutlineIcon fontSize="small" />
+                {/* <ChatBubbleOutlineIcon fontSize="small" />
                 <RepeatIcon fontSize="small" />
                 <FavoriteBorderIcon fontSize="small" />
-                <BookmarkBorderIcon fontSize="small" />
+                <BookmarkBorderIcon fontSize="small" /> */}
             </div>
         </div>
         </div>
