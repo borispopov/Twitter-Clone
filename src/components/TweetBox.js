@@ -1,7 +1,6 @@
 import React, {useState} from 'react'
 import "./TweetBox.css"
-// import { Avatar, Button } from "@material-ui/core";
-import db from "./firebase";
+import { Avatar, Button } from "@mui/material";
 import { serverTimestamp} from 'firebase/firestore';
 
 function TweetBox() {
@@ -14,18 +13,8 @@ function TweetBox() {
 
     if(tweetMessage !=="") {
 
-    db.collection("posts").add({
-      displayName: "Boris Popov",
-      username: "popov",
-      verified: true,
-      text: tweetMessage,
-      image: tweetImage,
-      avatar: "https://sloanreview.mit.edu/wp-content/uploads/2019/07/FL-Ready-Curiosity-Leadership-2400-1.jpg",
-      time: time
-    });
-
-    setTweetMessage("");
-    setTweetImage("");
+      setTweetMessage("");
+      setTweetImage("");
 
   };
 };
@@ -34,7 +23,7 @@ function TweetBox() {
     <div className="tweetBox">
         <form>
             <div className="tweetBox__input">
-                {/* <Avatar src="https://sloanreview.mit.edu/wp-content/uploads/2019/07/FL-Ready-Curiosity-Leadership-2400-1.jpg"/> */}
+                <Avatar src="https://sloanreview.mit.edu/wp-content/uploads/2019/07/FL-Ready-Curiosity-Leadership-2400-1.jpg"/>
                 <input
                   onChange={e => setTweetMessage(e.target.value)}
                   value={tweetMessage}
@@ -48,11 +37,11 @@ function TweetBox() {
               placeholder="Optional: Enter Image URL"
               type="text"/>
 
-            {/* <Button
+            <Button
               onClick={sendTweet}
               type="submit"
               className="tweetBox__tweetButton">Tweet
-            </Button> */}
+            </Button>
         </form>
     </div>
   );

@@ -33,8 +33,7 @@
   text-transform: inherit !important;
   border-radius: 30px !important;
   width: 80px;
+  top: 30%;
   height: 40px !important;
-  margin-top: 350px !important;
   margin-left: 220px !important;
-  cursor: pointer ;
 }

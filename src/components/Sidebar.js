@@ -1,35 +1,26 @@
 import React, {useEffect, useState} from "react";
 import './Sidebar.css';
-// import { Button } from "@material-ui/core";
-// import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople';
-// import SidebarOption from "./SidebarOption";
-// import HomeIcon from '@material-ui/icons/Home';
-// import SearchIcon from '@material-ui/icons/Search';
-// import NotificationsNoneIcon from '@material-ui/icons/NotificationsNone';
-// import MailOutlineIcon from '@material-ui/icons/MailOutline';
-// import BookmarkBorderIcon from '@material-ui/icons/BookmarkBorder';
-// import ListAltIcon from '@material-ui/icons/ListAlt';
-// import PermIdentityIcon from '@material-ui/icons/PermIdentity';
-// import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import db from "./firebase";
+import { Button } from "@mui/material";
+import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
+import SidebarOption from "./SidebarOption";
+import HomeIcon from '@mui/icons-material/Home';
+import SearchIcon from '@mui/icons-material/Search';
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import PermIdentityIcon from '@mui/icons-material/PermIdentity';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ProfileBar from "./ProfileBar";
 
-function Sidebar( {handleLogout} ){
+function Sidebar({handleLogout}){
 
     const [profile, setProfile] = useState([]);
 
-        useEffect(() => {
-          db.collection("profile").onSnapshot(snapshot => (
-            setProfile(snapshot.docs.map(doc => doc.data()))
-          ))
-        }, []);
-
     return (
-
     <div className="sidebar">
 
-        {/* <EmojiPeopleIcon className="sidebar__logoIcon" />
-
+        <EmojiPeopleIcon className="sidebar__logoIcon" />
         <SidebarOption active Icon={HomeIcon} text="Home"/>
         <SidebarOption Icon={SearchIcon} text="Explore"/>
         <SidebarOption Icon={NotificationsNoneIcon} text="Notifications"/>
@@ -37,16 +28,16 @@ function Sidebar( {handleLogout} ){
         <SidebarOption Icon={BookmarkBorderIcon} text="Bookmarks"/>
         <SidebarOption Icon={ListAltIcon} text="Lists"/>
         <SidebarOption Icon={PermIdentityIcon} text="Profile"/>
-        <SidebarOption Icon={MoreHorizIcon} text="More"/> */}
+        <SidebarOption Icon={MoreHorizIcon} text="More"/>
 
-        {/* <Button
+        <Button
             variant="outlined"
             className="sidebar__tweet"
             fullWidth >
             Tweet
-        </Button> */}
+        </Button>
 
-        {/* <div className="profile__bar">
+        <div className="profile__bar">
             {profile.map(profile => (
             <ProfileBar
                 displayName={profile.displayName}
@@ -56,11 +47,11 @@ function Sidebar( {handleLogout} ){
                 />
         ))}
 
-        </div> */}
+        </div>
 
-        {/* <Button className="logout__comp" onClick={handleLogout}>
+        <Button className="logout__comp" onClick={() => {console.log('logging out'); handleLogout()}}>
             Logout
-        </Button> */}
+        </Button>
 
     </div>
     )

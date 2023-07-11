@@ -1,9 +1,6 @@
 import React, { useState, useEffect }from 'react'
 // import { Avatar, Button } from "@material-ui/core";
 import "./Modal.css"
-import db from "./firebase"
-// import firebase from "./firebase"
-// import {doc} from "firebase/firestore"
 
 function Modal({closeModal, username, displayName, avatar}) {
 
@@ -22,13 +19,6 @@ function Modal({closeModal, username, displayName, avatar}) {
     const setProfile = () => {
 
         if (usernameEdit.length > 2 && displayNameEdit !== ""){
-          db.collection("profile").doc("mishopopov@yahoo.com").update({
-          displayName: displayNameEdit,
-          username: usernameEdit,
-          //   verified: true,
-          //   avatar: avatar1,
-          }).catch((error) =>
-          console.log(error));
 
           setUsernameEdit("");
           setDisplayNameEdit("");
