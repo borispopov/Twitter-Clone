@@ -75,7 +75,7 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
                         <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
                         <p className="errorMsg">{error}</p>
                         <Button className="sign__in" onClick={handleLoginError}>Sign In</Button>
-                        <p>Don't Have an Account? <span onClick={() => setHasAccount(false)}>Sign Up</span></p>
+                        <p>Don't Have an Account? <span onClick={() => {setHasAccount(false); setError("");}}>Sign Up</span></p>
                         </>
                     ) : (
                         <>
@@ -90,7 +90,7 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
                         <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
                         <p className="errorMsg">{error}</p>
                         <Button className="sign__up" onClick={handleSignupError}>Sign Up</Button>
-                        <p>Have an Account? <span onClick={() => setHasAccount(true)}>Sign In</span></p>
+                        <p>Have an Account? <span onClick={() => {setHasAccount(true); setError("");}}>Sign In</span></p>
                         </>
                     )}
                 </div>
