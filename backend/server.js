@@ -17,7 +17,12 @@ app.post('/signup', async (req, res) => {
     const { name, password, email, username } = req.body;
     const hashPassword = await bcrypt.hash(password, 10);
     const newName = await pool.query("INSERT INTO users (name, password, email, username) VALUES($1, $2, $3, $4) RETURNING *", [name, hashPassword, email, username]);
-    res.json(newName);
+    const user = newName.rows[0];
+    console.log(user)
+    const secret = crypto.randomBytes(32).toString('hex');
+    const token = jwt.sign({ userId: user.uid}, secret)
+
+    return res.json({ newName, token })
   } catch(err) {
     console.log(err);
     return res.status(500).json({error: "Internal Server Error"});
@@ -59,8 +64,6 @@ app.get('/user/:email', async (req, res) => {
     return res.status(500).json({error: "Internal Server Error"});
   }
 });
-
-
 
 app.listen(5000, () => {
   console.log('server on');
