@@ -35,7 +35,7 @@ body {
   width: 100%;
   min-height: 100vh;
   padding: 0 20px;
-  background: #e9e9e9;
+  background: #d2d8e4;
   display: flex;
 }
 
@@ -64,6 +64,7 @@ body {
     rgba(11, 26, 104, 0.9) 100%
   );
   box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.8);
+  border-radius: 12%;
 }
 
 .login .loginContainer label {

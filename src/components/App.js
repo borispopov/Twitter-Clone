@@ -8,6 +8,7 @@ const App = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    console.log('token removed')
     setLoggedIn(false);
 }
 

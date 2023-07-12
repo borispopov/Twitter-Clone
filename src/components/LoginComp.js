@@ -14,7 +14,6 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
     const [ error, setError ] = useState("");
 
     const handleLogin = async (e) => {
-        e.preventDefault();
         setError("")
 
         try {
@@ -26,7 +25,7 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
             setLoggedIn(true);
         } catch (err) {
             console.log(err)
-            setError('Invalid username or password');
+            setError('Invalid email or password');
             setLoggedIn(false);
         }
     }
@@ -46,35 +45,41 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
         }
     }
 
-    const handleError = () => {
+    const handleSignupError = () => {
         setError("")
-        if (name.length < 1) setError("please enter valid name");
-        else if (!email.includes('@')) setError("please enter valid email");
-        else if (username.length < 3) setError("username must be at least 3 characters");
-        else if (password.length < 6) setError("password must be atleast 6 characters");
-        console.log(error)
-        if (error.length < 1) return true;
-        else return false;
+        if (name.length < 1) {setError("please enter valid name"); return;}
+        else if (!email.includes('@') && !email.includes('.')) {setError("please enter valid email"); return;}
+        else if (username.length < 3) {setError("username must be at least 3 characters"); return;}
+        else if (password.length < 6) {setError("password must be atleast 6 characters"); return;}
+        handleSignup();
+    }
+
+    const handleLoginError = () => {
+        setError("")
+        if (!email.includes('@') && !email.includes('.')) {setError("please enter valid email"); return;}
+        else if (password.length < 6) {setError("password must be atleast 6 characters"); return;}
+        handleLogin();
     }
 
     return (
         <section className="login">
 
             <div className="loginContainer">
-                <h2>Welcome</h2>
                 <div className="btnContainer">
                     {hasAccount ? (
                         <>
+                        <h2>Welcome Back Brother</h2>
                         <label>Email</label>
                         <input type="text" autoFocus required value={email} onChange={(e) => setEmail(e.target.value)} />
                         <label>Password</label>
                         <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
                         <p className="errorMsg">{error}</p>
-                        <Button className="sign__in" onClick={handleLogin}>Sign In</Button>
+                        <Button className="sign__in" onClick={handleLoginError}>Sign In</Button>
                         <p>Don't Have an Account? <span onClick={() => setHasAccount(false)}>Sign Up</span></p>
                         </>
                     ) : (
                         <>
+                        <h2>Welcome Ser</h2>
                         <label >Name</label>
                         <input type="text" autoFocus required value={name} onChange={(e) => setName(e.target.value)} />
                         <label>Email</label>
@@ -84,7 +89,7 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
                         <label>Password</label>
                         <input type="password" required value={password} onChange={e => setPassword(e.target.value)} />
                         <p className="errorMsg">{error}</p>
-                        <Button className="sign__up" onClick={() => {if (handleError()) {handleSignup();}}}>Sign Up</Button>
+                        <Button className="sign__up" onClick={handleSignupError}>Sign Up</Button>
                         <p>Have an Account? <span onClick={() => setHasAccount(true)}>Sign In</span></p>
                         </>
                     )}

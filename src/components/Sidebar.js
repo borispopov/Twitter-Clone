@@ -15,8 +15,6 @@ import ProfileBar from "./ProfileBar";
 
 function Sidebar({handleLogout}){
 
-    console.log(handleLogout)
-
     const [profile, setProfile] = useState([]);
 
     const logout = () => {
