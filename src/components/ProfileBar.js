@@ -1,4 +1,4 @@
-// import { Avatar, Button } from '@material-ui/core';
+import { Avatar, Button } from '@mui/material';
 import React, {forwardRef, useState, useEffect } from 'react'
 import "./ProfileBar.css";
 import Modal from "./Modal";
@@ -13,7 +13,7 @@ const ProfileBar = forwardRef(({ displayName, username, verified, avatar}, ref) 
     <div className="profile" ref={ref} >
 
         <div className="profile__avatar" onClick={() => {setOpenModal(true)}}>
-            {/* <Avatar /> */}
+            <Avatar />
         </div>
 
         <div className="profile__displayName" onClick={() => {setOpenModal(true)}}>

@@ -15,7 +15,14 @@ import ProfileBar from "./ProfileBar";
 
 function Sidebar({handleLogout}){
 
+    console.log(handleLogout)
+
     const [profile, setProfile] = useState([]);
+
+    const logout = () => {
+        console.log('logging out');
+        handleLogout();
+    }
 
     return (
     <div className="sidebar">
@@ -45,13 +52,12 @@ function Sidebar({handleLogout}){
                 verified={profile.verified}
                 avatar={profile.avatar}
                 />
-        ))}
+            ))}
 
+            <Button className="logout__comp" onClick={logout}>
+                        Logout
+            </Button>
         </div>
-
-        <Button className="logout__comp" onClick={() => {console.log('logging out'); handleLogout()}}>
-            Logout
-        </Button>
 
     </div>
     )
