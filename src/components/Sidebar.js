@@ -13,7 +13,6 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ProfileBar from "./ProfileBar";
-import { useSelector } from "react-redux";
 
 function Sidebar({handleLogout}){
 
@@ -24,15 +23,13 @@ function Sidebar({handleLogout}){
         handleLogout();
     }
 
-    const { uid, name, username } = useSelector((state) => state.updateUser);
-
     useEffect(() => {
         setProfile({
-            name: name,
-            username: username,
-            uid: uid,
+            uid: sessionStorage.getItem('uid'),
+            name: sessionStorage.getItem('name'),
+            username: sessionStorage.getItem('username')
         })
-    }, [uid, name, username]);
+    }, [sessionStorage]);
 
     return (
     <div className="sidebar">

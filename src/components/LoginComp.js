@@ -1,8 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
 import { Button } from "@mui/material";
-import { useDispatch, useSelector } from 'react-redux';
-import { update } from '../redux/setProfile';
 
 const LoginComp = ({ setLoggedIn, loggedIn}) => {
 
@@ -13,27 +11,19 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
     const [ hasAccount, setHasAccount ] = useState(true);
     const [ error, setError ] = useState("");
 
-    const dispatch = useDispatch();
-
-    const handleLogin = async (e) => {
-        setError("")
-
+    const handleLogin = async () => {
+        setError("");
         try {
             const response = await axios.post('http://localhost:5000/login', { email, password });
-            const token = response.data.token;
-            localStorage.setItem('token', token);
 
-            const payload = {
-                uid: response.data.user.uid,
-                name: response.data.user.name,
-                username: response.data.user.username
-            }
-
+            sessionStorage.setItem('uid', response.data.user.uid)
+            sessionStorage.setItem('name', response.data.user.name)
+            sessionStorage.setItem('username', response.data.user.username)
+            sessionStorage.setItem('token', response.data.token)
             setLoggedIn(true);
-            dispatch(update(payload));
         } catch (err) {
             console.log(err)
-            setError('Invalid email or password');
+            setError(err.response.data.error);
             setLoggedIn(false);
         }
     }
@@ -43,34 +33,32 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
         setError("");
         try {
             const response = await axios.post('http://localhost:5000/signup', { name, password, email, username });
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            const payload = {
-                uid: response.data.user.uid,
-                name: response.data.user.name,
-                username: response.data.user.username
-            }
+
+            sessionStorage.setItem('uid', response.data.user.uid)
+            sessionStorage.setItem('name', response.data.user.name)
+            sessionStorage.setItem('username', response.data.user.username)
+            sessionStorage.setItem('token', response.data.token)
             setLoggedIn(true);
-            dispatch(update(payload));
         } catch (err) {
-            setError(err.message);
+            setError(err.response.data.error);
+            console.log(err)
             setLoggedIn(false);
         }
     }
 
-    const handleSignupError = () => {
+    const handleSignupError = async () => {
         setError("")
-        if (name.length < 1) {setError("please enter valid name"); return;}
-        else if (!email.includes('@') && !email.includes('.')) {setError("please enter valid email"); return;}
-        else if (username.length < 3) {setError("username must be at least 3 characters"); return;}
-        else if (password.length < 6) {setError("password must be atleast 6 characters"); return;}
+        if (name.length < 1) {setError("Please Enter Valid Name"); return;}
+        else if (!email.includes('@') || !email.includes('.')) {setError("Please Enter a Valid Email"); return;}
+        else if (username.length < 3) {setError("Username Must be at Least 3 Characters"); return;}
+        else if (password.length < 6) {setError("Password Must be Atleast 6 Characters"); return;}
         handleSignup();
     }
 
     const handleLoginError = () => {
         setError("")
-        if (!email.includes('@') && !email.includes('.')) {setError("please enter valid email"); return;}
-        else if (password.length < 6) {setError("password must be atleast 6 characters"); return;}
+        if (!email.includes('@') && !email.includes('.')) {setError("Please Enter a Valid Email"); return;}
+        else if (password.length < 6) {setError("Password Must be Atleast 6 Characters"); return;}
         handleLogin();
     }
 

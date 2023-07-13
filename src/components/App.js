@@ -7,14 +7,14 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     console.log('token removed')
     setLoggedIn(false);
   }
 
   useEffect(() => {
-    if (localStorage.getItem('token')) setLoggedIn(true);
-  })
+    if (sessionStorage.getItem('token')) setLoggedIn(true);
+  }, [loggedIn])
 
   console.log('loggedin?: ' + loggedIn)
 
