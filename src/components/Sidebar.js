@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import axios from "axios"
 import './Sidebar.css';
 import { Button } from "@mui/material";
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
@@ -12,15 +13,26 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import ProfileBar from "./ProfileBar";
+import { useSelector } from "react-redux";
 
 function Sidebar({handleLogout}){
 
-    const [profile, setProfile] = useState([]);
+    const [profile, setProfile] = useState({});
 
     const logout = () => {
         console.log('logging out');
         handleLogout();
     }
+
+    const { uid, name, username } = useSelector((state) => state.updateUser);
+
+    useEffect(() => {
+        setProfile({
+            name: name,
+            username: username,
+            uid: uid,
+        })
+    }, [uid, name, username]);
 
     return (
     <div className="sidebar">
@@ -43,17 +55,13 @@ function Sidebar({handleLogout}){
         </Button>
 
         <div className="profile__bar">
-            {profile.map(profile => (
-            <ProfileBar
-                displayName={profile.displayName}
-                username={profile.username}
-                verified={profile.verified}
-                avatar={profile.avatar}
-                />
-            ))}
+
+            <ProfileBar className="profile__contents"
+                profile={profile}
+            />
 
             <Button className="logout__comp" onClick={logout}>
-                        Logout
+                Logout
             </Button>
         </div>
 

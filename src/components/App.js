@@ -10,11 +10,21 @@ const App = () => {
     localStorage.removeItem('token');
     console.log('token removed')
     setLoggedIn(false);
-}
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) setLoggedIn(true);
+  })
+
+  console.log('loggedin?: ' + loggedIn)
 
   return (
     <div className="container">
-      {loggedIn ? <Twit handleLogout={handleLogout}/> : <LoginComp setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>}
+      {loggedIn ?
+        <Twit handleLogout={handleLogout}/>
+        :
+        <LoginComp setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
+      }
     </div>
   );
 };

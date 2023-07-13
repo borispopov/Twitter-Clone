@@ -22,7 +22,7 @@ app.post('/signup', async (req, res) => {
     const secret = crypto.randomBytes(32).toString('hex');
     const token = jwt.sign({ userId: user.uid}, secret)
 
-    return res.json({ newName, token })
+    return res.json({ user, newName, token })
   } catch(err) {
     console.log(err);
     return res.status(500).json({error: "Internal Server Error"});
@@ -44,7 +44,7 @@ app.post('/login', async (req, res) => {
     const secret = crypto.randomBytes(32).toString('hex');
     const token = jwt.sign({ userId: user.uid}, secret)
 
-    return res.json({ token })
+    return res.json({ user, token })
   } catch (err) {
     console.log(err);
     return res.status(500).json({error: "Internal Server Error"});

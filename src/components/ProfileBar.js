@@ -4,9 +4,10 @@ import "./ProfileBar.css";
 import Modal from "./Modal";
 
 
-const ProfileBar = forwardRef(({ displayName, username, verified, avatar}, ref) => {
+const ProfileBar = forwardRef(({ profile }, ref) => {
 
     const [openModal, setOpenModal] = useState(false);
+    const [ avatar, setAvatar ] = useState("");
 
     return (
 
@@ -17,13 +18,13 @@ const ProfileBar = forwardRef(({ displayName, username, verified, avatar}, ref) 
         </div>
 
         <div className="profile__displayName" onClick={() => {setOpenModal(true)}}>
-        {displayName}
+        {profile.name}
         </div>
 
         <div className="profile__username" onClick={() => {setOpenModal(true)}}>
-        @{username}
+        @{profile.username}
         </div>
-        {openModal && <Modal closeModal={setOpenModal} displayName={displayName} username={username} avatar={avatar} />}
+        {openModal && <Modal closeModal={setOpenModal} displayName={profile.name} username={profile.username} avatar={profile.avatar}/>}
 
 
     </div>

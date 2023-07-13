@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import axios from 'axios';
-import App from './App';
 import { Button } from "@mui/material";
-
+import { useDispatch, useSelector } from 'react-redux';
+import { update } from '../redux/setProfile';
 
 const LoginComp = ({ setLoggedIn, loggedIn}) => {
 
@@ -13,16 +13,24 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
     const [ hasAccount, setHasAccount ] = useState(true);
     const [ error, setError ] = useState("");
 
+    const dispatch = useDispatch();
+
     const handleLogin = async (e) => {
         setError("")
 
         try {
             const response = await axios.post('http://localhost:5000/login', { email, password });
             const token = response.data.token;
-
-            // Store the token in local storage or cookies for subsequent requests
             localStorage.setItem('token', token);
+
+            const payload = {
+                uid: response.data.user.uid,
+                name: response.data.user.name,
+                username: response.data.user.username
+            }
+
             setLoggedIn(true);
+            dispatch(update(payload));
         } catch (err) {
             console.log(err)
             setError('Invalid email or password');
@@ -37,8 +45,13 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
             const response = await axios.post('http://localhost:5000/signup', { name, password, email, username });
             const token = response.data.token;
             localStorage.setItem('token', token);
-            console.log('token set');
+            const payload = {
+                uid: response.data.user.uid,
+                name: response.data.user.name,
+                username: response.data.user.username
+            }
             setLoggedIn(true);
+            dispatch(update(payload));
         } catch (err) {
             setError(err.message);
             setLoggedIn(false);

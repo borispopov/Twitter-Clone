@@ -28,7 +28,15 @@
   margin-top: 20px !important;
 }
 
-div.profile__bar .logout__comp {
+.profile__bar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 10px;
+  margin-top: 75%;
+}
+
+.logout__comp {
   background-color: var(--twitter-color) !important;
   border: none !important;
   color: white !important;
@@ -37,6 +45,4 @@ div.profile__bar .logout__comp {
   border-radius: 30px !important;
   width: 80px;
   height: 40px !important;
-  position: absolute;
-  bottom: 1vh;
 }

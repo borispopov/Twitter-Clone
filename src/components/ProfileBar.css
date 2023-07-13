@@ -1,12 +1,11 @@
 .profile {
     display: flex;
-    position: absolute;
-    bottom: 20px;
     padding: 10px;
     padding-right: 25px;
     align-items: center;
     cursor: pointer;
 }
+
 .profile__displayName {
     margin-left: 15px;
     font-weight: bold;
