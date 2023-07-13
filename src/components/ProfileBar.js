@@ -17,13 +17,17 @@ const ProfileBar = forwardRef(({ profile }, ref) => {
             <Avatar />
         </div>
 
-        <div className="profile__displayName" onClick={() => {setOpenModal(true)}}>
-        {profile.name}
+        <div className="profile__cont">
+                    <div className="profile__displayName" onClick={() => {setOpenModal(true)}}>
+            {profile.name}
+            </div>
+
+            <div className="profile__username" onClick={() => {setOpenModal(true)}}>
+            @{profile.username}
+            </div>
         </div>
 
-        <div className="profile__username" onClick={() => {setOpenModal(true)}}>
-        @{profile.username}
-        </div>
+
         {openModal && <Modal closeModal={setOpenModal} displayName={profile.name} username={profile.username} avatar={profile.avatar}/>}
 
 
