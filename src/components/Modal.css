@@ -1,79 +1,123 @@
 .modalBackground {
-    width: 100% !important;
-    height: 100% !important;
-    background-color: rgba(200, 200, 200, 0.74);
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-    margin: 0;
-    top: 0;
-    left: 0;
-    cursor: default;
-  }
-  
-  .modalContainer {
-    width: 50%;
-    height: 50%;
-    border-radius: 12px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    display: flex;
-    flex-direction: column;
-    padding: 25px;
-  }
-  
-  .modalContainer .title {
-    display: inline-block;
-    text-align: center;
-    margin-top: 10px;
-  }
-  
-  .titleCloseBtn {
-    display: flex;
-    justify-content: flex-end;
-  }
-  
-  .titleCloseBtn button {
-    background-color: transparent;
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-  }
-  
-  .modalContainer .avatar__edit {
-    flex: 50%;
-    display: flex;
-    margin-left: 25px;
-    margin-top: 50px;
-    size: 100vh;
-  }
-  
-  .modalContainer .footer {
-    flex: 20%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .modalContainer .footer button {
-    width: 150px;
-    height: 45px;
-    margin: 10px;
-    border: none;
-    background-color: cornflowerblue;
-    color: white;
-    border-radius: 8px;
-    font-size: 20px;
-    cursor: pointer;
-  }
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(200, 200, 200, 0.74);
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  margin: 0;
+  top: 0;
+  left: 0;
+  cursor: default;
+}
 
-  .username__error {
-    font: 200;
-    font-size: large;
-  }
-  
-  #cancelBtn {
-    background-color: crimson;
-  }
+.user__error {
+  color: red;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.titleCloseBtn {
+  display: flex;
+  align-self: flex-end;
+}
+
+.titleCloseBtn button {
+  background-color: transparent;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+  color: white;
+  margin-right: 40px;
+}
+
+
+#cancelBtn, #submitBtn {
+  background-color: var(--twitter-color) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 900 !important;
+  text-transform: inherit !important;
+  border-radius: 30px !important;
+  width: 100px;
+  height: 40px !important;
+  cursor: pointer ;
+  margin: 0 10px;
+}
+
+.modal {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0 20px;
+  background: #d2d8e4;
+  display: flex;
+}
+
+.modal h1 {
+  color: rgb(255, 255, 255);
+  margin: 25px 0;
+  margin-bottom: 40px;
+  display: block;
+  font-size: 40px;
+  line-height: 1;
+}
+
+.modal .modalContainer {
+  align-items: center;
+  margin: auto;
+  max-width: 40%;
+  min-width: 600px;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: radial-gradient(
+    ellipse at left bottom,
+    rgb(24, 42, 86) 0%,
+    rgba(51, 42, 122, 0.9) 59%,
+    rgba(25, 11, 104, 0.9) 100%
+  );
+  box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.8);
+  border-radius: 5%;
+  width: 100%;
+  padding: 24px 0;
+}
+
+.modal .modalContainer label {
+  color: white;
+  margin: 14px 0;
+  display: block;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.modal .modalContainer input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-size: 19px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.modalContainer .footer {
+  padding: 20px;
+}
+
+.modal .modalContainer p {
+  padding: 10px;
+  text-align: center;
+}
+
+.modal .modalContainer p span {
+  color: yellow;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  margin-left: 5px;
+  cursor: pointer;
+  transition: all 400ms ease-in-out;
+}

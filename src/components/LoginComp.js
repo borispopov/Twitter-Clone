@@ -15,10 +15,10 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
         setError("");
         try {
             const response = await axios.post('http://localhost:5000/login', { email, password });
-
             sessionStorage.setItem('uid', response.data.user.uid)
             sessionStorage.setItem('name', response.data.user.name)
             sessionStorage.setItem('username', response.data.user.username)
+            sessionStorage.setItem('email', response.data.user.email)
             sessionStorage.setItem('token', response.data.token)
             setLoggedIn(true);
         } catch (err) {
@@ -37,6 +37,7 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
             sessionStorage.setItem('uid', response.data.user.uid)
             sessionStorage.setItem('name', response.data.user.name)
             sessionStorage.setItem('username', response.data.user.username)
+            sessionStorage.setItem('email', response.data.user.email)
             sessionStorage.setItem('token', response.data.token)
             setLoggedIn(true);
         } catch (err) {

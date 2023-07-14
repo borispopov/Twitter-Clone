@@ -69,19 +69,24 @@ app.post('/login', async (req, res) => {
   }
 })
 
-app.get('/user/:email', async (req, res) => {
+app.put('/profile', async (req, res) => {
   try {
-    // Query users with matching email
-    const { email } = req.params;
-    const user = await pool.query("SELECT * FROM users WHERE email = $1", [email.toLowerCase()])
-    res.json(user.rows);
+    // Update profile information
+    let { name, username, email, prevEmail } = req.body;
 
-    // If user not found returns error
-    if (user.rows.length < 1) {
-      return res.status(401).json({error: "User Not Found"});
+    // Query all users with the inputted email or username
+    const checker = await pool.query("SELECT * FROM users WHERE (email = $1 OR username = $2) AND email <> $3", [email.toLowerCase(), username.toLowerCase(), prevEmail.toLowerCase()])
+
+    // Check if Email or Username is already in Use
+    if (checker.rows.length > 0) {
+      if (checker.rows[0].email == email.toLowerCase()) return res.status(401).json({error: "Email Already Registered"});
+      else if (checker.rows[0].username == username.toLowerCase()) return res.status(401).json({error: "Username Already in Use"});
     }
+
+    const user = await pool.query("UPDATE users SET name = $1, username = $2, email = $3 WHERE email = $4", [name, username.toLowerCase(), email.toLowerCase(), prevEmail.toLowerCase()])
+    return res.json({ user })
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
     return res.status(500).json({error: "Internal Server Error"});
   }
 });

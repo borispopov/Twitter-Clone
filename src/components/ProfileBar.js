@@ -4,14 +4,13 @@ import "./ProfileBar.css";
 import Modal from "./Modal";
 
 
-const ProfileBar = forwardRef(({ profile }, ref) => {
+const ProfileBar = forwardRef(( ) => {
 
     const [openModal, setOpenModal] = useState(false);
-    const [ avatar, setAvatar ] = useState("");
 
     return (
 
-    <div className="profile" ref={ref} >
+    <div className="profile" >
 
         <div className="profile__avatar" onClick={() => {setOpenModal(true)}}>
             <Avatar />
@@ -19,16 +18,18 @@ const ProfileBar = forwardRef(({ profile }, ref) => {
 
         <div className="profile__cont">
                     <div className="profile__displayName" onClick={() => {setOpenModal(true)}}>
-            {profile.name}
+            {sessionStorage.getItem('name')}
             </div>
 
             <div className="profile__username" onClick={() => {setOpenModal(true)}}>
-            @{profile.username}
+            @{sessionStorage.getItem('username')}
             </div>
         </div>
 
 
-        {openModal && <Modal closeModal={setOpenModal} displayName={profile.name} username={profile.username} avatar={profile.avatar}/>}
+        {openModal && <Modal
+                        closeModal={setOpenModal}
+                        />}
 
 
     </div>

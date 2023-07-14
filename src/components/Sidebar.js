@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios"
 import './Sidebar.css';
 import { Button } from "@mui/material";
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
@@ -16,20 +15,10 @@ import ProfileBar from "./ProfileBar";
 
 function Sidebar({handleLogout}){
 
-    const [profile, setProfile] = useState({});
-
     const logout = () => {
         console.log('logging out');
         handleLogout();
     }
-
-    useEffect(() => {
-        setProfile({
-            uid: sessionStorage.getItem('uid'),
-            name: sessionStorage.getItem('name'),
-            username: sessionStorage.getItem('username')
-        })
-    }, [sessionStorage]);
 
     return (
     <div className="sidebar">
@@ -53,9 +42,7 @@ function Sidebar({handleLogout}){
 
         <div className="profile__bar">
 
-            <ProfileBar className="profile__contents"
-                profile={profile}
-            />
+            <ProfileBar className="profile__contents" />
 
             <Button className="logout__comp" onClick={logout}>
                 Logout
