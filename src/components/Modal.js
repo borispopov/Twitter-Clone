@@ -21,7 +21,6 @@ function Modal({ closeModal }) {
       return await updateProfile();
     }
 
-    // When Email is changed throws error on the second save press but not others (updates db)
     const updateProfile = async () => {
       try {
         console.log(name, username, email, sessionStorage.getItem('email'));
