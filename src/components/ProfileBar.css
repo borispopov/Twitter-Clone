@@ -1,4 +1,4 @@
-.profile {
+.profileCtn {
     display: flex;
     padding: 10px;
     align-items: center;
@@ -21,7 +21,7 @@
     position: relative;
 }
 
-.profile:hover {
+.profileCtn:hover {
     background-color: var(--twitter-background);
     border-radius: 40px;
     transition: background-color 50ms ease-out;

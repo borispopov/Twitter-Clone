@@ -19,6 +19,12 @@
   font-weight: 600;
 }
 
+.success {
+  color: rgb(19, 239, 19);
+  font-size: 17px;
+  font-weight: 600;
+}
+
 .titleCloseBtn {
   display: flex;
   align-self: flex-end;
@@ -47,15 +53,7 @@
   margin: 0 10px;
 }
 
-.modal {
-  width: 100%;
-  min-height: 100vh;
-  padding: 0 20px;
-  background: #d2d8e4;
-  display: flex;
-}
-
-.modal h1 {
+h1 {
   color: rgb(255, 255, 255);
   margin: 25px 0;
   margin-bottom: 40px;
@@ -64,7 +62,7 @@
   line-height: 1;
 }
 
-.modal .modalContainer {
+.modalContainer {
   align-items: center;
   margin: auto;
   max-width: 40%;
@@ -75,17 +73,17 @@
   justify-content: center;
   background: radial-gradient(
     ellipse at left bottom,
-    rgb(24, 42, 86) 0%,
-    rgba(51, 42, 122, 0.9) 59%,
-    rgba(25, 11, 104, 0.9) 100%
+    rgba(24, 42, 86, 0.95) 0%,
+    rgba(51, 42, 122, 0.95) 55%,
+    rgba(25, 11, 104, 0.95) 100%
   );
-  box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.5);
   border-radius: 5%;
   width: 100%;
   padding: 24px 0;
 }
 
-.modal .modalContainer label {
+.modalContainer label {
   color: white;
   margin: 14px 0;
   display: block;
@@ -93,7 +91,7 @@
   line-height: 1;
 }
 
-.modal .modalContainer input {
+.modalContainer input {
   width: 100%;
   border: none;
   outline: none;
@@ -108,12 +106,12 @@
   padding: 20px;
 }
 
-.modal .modalContainer p {
+.modalContainer p {
   padding: 10px;
   text-align: center;
 }
 
-.modal .modalContainer p span {
+.modalContainer p span {
   color: yellow;
   font-weight: 500;
   letter-spacing: 0.5px;
