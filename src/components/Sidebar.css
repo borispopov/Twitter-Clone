@@ -9,6 +9,14 @@
   position: relative;
 }
 
+div.sidebarOption h2 {
+  font-size: 25px;
+}
+
+div.sidebarOption {
+  margin: 2.5px 10px;
+}
+
 .sidebar__logoIcon {
   color: var(--twitter-color);
   font-size: 40px !important;
@@ -33,7 +41,7 @@
   align-items: baseline;
   justify-content: space-between;
   padding: 10px;
-  margin-top: 75%;
+  margin-top: auto;
 }
 
 .logout__comp {

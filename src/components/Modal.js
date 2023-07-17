@@ -1,7 +1,8 @@
-import React, { useState, useEffect }from 'react'
+import React, { useState, useEffect, useRef }from 'react'
 import { Avatar, Button, easing } from "@mui/material";
 import "./Modal.css"
 import axios from 'axios';
+import EditAvatar from './EditAvatar';
 
 function Modal({ closeModal }) {
 
@@ -10,7 +11,9 @@ function Modal({ closeModal }) {
     const [ name, setName ] = useState(sessionStorage.getItem('name'));
     const [ username, setUsername ] = useState(sessionStorage.getItem('username'));
     const [ email, setEmail ] = useState(sessionStorage.getItem('email'));
-    const [ avatar, setAvatar ] = useState("");
+    const [ avatar, setAvatar ] = useState(sessionStorage.getItem('avatar'));
+    const [ avatarEdit, setAvatarEdit ] = useState(false)
+    const inputRef = useRef(null);
 
     const handleError = async () => {
       setUserError("");
@@ -39,6 +42,19 @@ function Modal({ closeModal }) {
 
     };
 
+    const handleFiles = (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        // Convert the file to a data URL
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setAvatar(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+      setAvatarEdit(true);
+    }
+
   return (
     <div className='modalBackground'  >
         <div className="modalContainer">
@@ -48,11 +64,21 @@ function Modal({ closeModal }) {
             <div className="title">
                 <h1>Edit Profile</h1>
             </div>
-            <div className="avatar__edit">
-                <Avatar onChange={e => setAvatar( e.target.value )}
+            <div className="avatar__edit" onClick={() => {
+              inputRef.current.click();
+              }}>
+                <Avatar
+                  onChange={e => setAvatar( e.target.value )}
+                  src={avatar}
                   value={avatar}
-                  type="image"/>
+                  type="image" />
+
+                <input type="file" ref={inputRef} style={{display: 'none'}} onChange={handleFiles} />
             </div>
+            {avatarEdit && <EditAvatar
+                              setAvatarEdit={setAvatarEdit}
+                              avatar={avatar}
+                              setAvatar={setAvatar}/>}
             <div className="displayName__edit">
               <label >Name </label>
               <input
@@ -83,6 +109,7 @@ function Modal({ closeModal }) {
               <Button onClick={() => closeModal(false)} id="cancelBtn">Cancel</Button>
               <Button onClick={ async () => {
                 const res = await handleError();
+                sessionStorage.setItem('avatar', avatar);
                 setTimeout(async () => {
                   if (res) closeModal(false);
                 }, 1000)

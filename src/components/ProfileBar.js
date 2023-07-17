@@ -4,7 +4,7 @@ import "./ProfileBar.css";
 import Modal from "./Modal";
 
 
-const ProfileBar = forwardRef(( ) => {
+const ProfileBar = () => {
 
     const [openModal, setOpenModal] = useState(false);
 
@@ -13,7 +13,7 @@ const ProfileBar = forwardRef(( ) => {
     <div className="profile" >
         <div className="profileCtn">
             <div className="profile__avatar" onClick={() => {setOpenModal(true)}}>
-                    <Avatar />
+                    <Avatar src={sessionStorage.getItem('avatar')}/>
                 </div>
 
             <div className="profile__cont">
@@ -35,6 +35,6 @@ const ProfileBar = forwardRef(( ) => {
     </div>
 
     );
-});
+};
 
 export default ProfileBar;
