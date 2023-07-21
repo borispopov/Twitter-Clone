@@ -3,8 +3,11 @@ import { Avatar, Button, easing } from "@mui/material";
 import "./Modal.css"
 import axios from 'axios';
 import EditAvatar from './EditAvatar';
+import { v4 as uuid } from 'uuid'
 
 function Modal({ closeModal }) {
+
+    window.Buffer = window.Buffer || require("buffer").Buffer;
 
     const [ userError, setUserError ] = useState("");
     const [ success, setSuccess ] = useState("");
@@ -13,7 +16,17 @@ function Modal({ closeModal }) {
     const [ email, setEmail ] = useState(sessionStorage.getItem('email'));
     const [ avatar, setAvatar ] = useState(sessionStorage.getItem('avatar'));
     const [ avatarEdit, setAvatarEdit ] = useState(false)
+    const [ file, setFile ] = useState('')
+    let avatarKey = '';
+
     const inputRef = useRef(null);
+
+    const handleSave = async () => {
+      let res = await handleError();
+      if (res) { res = await uploadFiles(); }
+      if (res) { res = await updateProfile(); }
+      if (res) { closeModal(false); }
+    }
 
     const handleError = async () => {
       setUserError("");
@@ -21,17 +34,19 @@ function Modal({ closeModal }) {
       else if (!email.includes('@') || !email.includes('.')) {setUserError("Invalid Email"); return false;}
       setUsername(username.toLowerCase());
       setEmail(email.toLowerCase());
-      return await updateProfile();
+      return true;
     }
 
     const updateProfile = async () => {
       try {
         console.log(name, username, email, sessionStorage.getItem('email'));
         const prevEmail = sessionStorage.getItem('email');
-        const response = await axios.put('http://localhost:5000/profile', { name, username, email, prevEmail });
+        console.log('key: ', avatarKey)
+        const response = await axios.put('http://localhost:5000/profile', { name, username, email, prevEmail, avatarKey });
         sessionStorage.setItem('email', email);
         sessionStorage.setItem('name', name);
         sessionStorage.setItem('username', username);
+        sessionStorage.setItem('avatar', avatar);
         setSuccess("Profile Information Updated")
         return true
       } catch(err) {
@@ -42,17 +57,34 @@ function Modal({ closeModal }) {
 
     };
 
-    const handleFiles = (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        // Convert the file to a data URL
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setAvatar(reader.result);
-        };
-        reader.readAsDataURL(file);
+    const uploadFiles = async () => {
+      try {
+        console.log('files: ', file);
+        const key = `Avatars/${uuid()}`
+
+        const formData = new FormData();
+        formData.append('avatar', file);
+        formData.append('key', key);
+
+        const res = await axios.post('http://localhost:5000/upload', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+        console.log('response: ', res)
+        avatarKey = res.data.uid;
+        return true
+      } catch (err) {
+        console.log(err)
+        return false
       }
-      setAvatarEdit(true);
+
+    }
+
+    const handleFile = (e) => {
+      setFile(e.target.files[0]);
+      setAvatarEdit(true)
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setAvatar(reader.result);
+      };
+      reader.readAsDataURL(e.target.files[0]);
     }
 
   return (
@@ -61,9 +93,11 @@ function Modal({ closeModal }) {
             <div className="titleCloseBtn">
                 <button onClick={() => closeModal(false)}> X </button>
             </div>
+
             <div className="title">
                 <h1>Edit Profile</h1>
             </div>
+
             <div className="avatar__edit" onClick={() => {
               inputRef.current.click();
               }}>
@@ -72,13 +106,14 @@ function Modal({ closeModal }) {
                   src={avatar}
                   value={avatar}
                   type="image" />
-
-                <input type="file" ref={inputRef} style={{display: 'none'}} onChange={handleFiles} />
+                <input type="file" ref={inputRef} style={{display: 'none'}} onChange={handleFile} accept='image/'/>
             </div>
+
             {avatarEdit && <EditAvatar
                               setAvatarEdit={setAvatarEdit}
                               avatar={avatar}
                               setAvatar={setAvatar}/>}
+
             <div className="displayName__edit">
               <label >Name </label>
               <input
@@ -87,6 +122,7 @@ function Modal({ closeModal }) {
                 placeholder="name"
                 type="text"/>
             </div>
+
             <div className="username__edit">
               <label >Username </label>
               <input
@@ -95,6 +131,7 @@ function Modal({ closeModal }) {
                 placeholder="username"
                 type="text"/>
             </div>
+
             <div className="email__edit">
               <label >Email </label>
               <input
@@ -103,17 +140,13 @@ function Modal({ closeModal }) {
                 placeholder="name@website.com"
                 type="text"/>
             </div>
+
             <p className="user__error">{userError}</p>
             <p className="success">{success}</p>
+
             <div className="footer">
               <Button onClick={() => closeModal(false)} id="cancelBtn">Cancel</Button>
-              <Button onClick={ async () => {
-                const res = await handleError();
-                sessionStorage.setItem('avatar', avatar);
-                setTimeout(async () => {
-                  if (res) closeModal(false);
-                }, 1000)
-              }} id="submitBtn" type="submit">Save</Button>
+              <Button onClick={handleSave} id="submitBtn" type="submit">Save</Button>
             </div>
         </div>
     </div>

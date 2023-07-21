@@ -1,12 +1,10 @@
 import React, {useState} from 'react'
 import "./TweetBox.css"
 import { Avatar, Button } from "@mui/material";
-import { serverTimestamp} from 'firebase/firestore';
 
 function TweetBox() {
   const [tweetMessage, setTweetMessage] = useState ("");
   const [tweetImage, setTweetImage] = useState ("");
-  const time = {timestamp: serverTimestamp() };
 
   const sendTweet = e => {
     e.preventDefault();
@@ -23,7 +21,7 @@ function TweetBox() {
     <div className="tweetBox">
         <form>
             <div className="tweetBox__input">
-                <Avatar src="https://sloanreview.mit.edu/wp-content/uploads/2019/07/FL-Ready-Curiosity-Leadership-2400-1.jpg"/>
+                <Avatar src={sessionStorage.getItem('avatar')}/>
                 <input
                   onChange={e => setTweetMessage(e.target.value)}
                   value={tweetMessage}

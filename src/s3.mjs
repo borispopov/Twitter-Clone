@@ -1,4 +1,5 @@
 import { GetObjectCommand, PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const REGION ='us-west-2';
 const ACCESS_KEY = 'AKIA5IVB3WOUL3W7DSMZ';
@@ -16,7 +17,7 @@ const BUCKET = 'twitterimages1'
 
 const uploadToS3 = async ({ file, key }) => {
   try {
-    console.log('in upload: ', {file})
+    console.log('in upload: ', file)
     const command = new PutObjectCommand({
     Bucket: BUCKET,
     Key: key,
@@ -38,12 +39,11 @@ const GetFromS3 = async ({ key }) => {
       Bucket: BUCKET,
       Key: key,
     })
-    const res = await s3.send(command);
-    console.log(res)
-    return res
+    const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    return url
   } catch (err) {
     return err
   }
 }
 
-export default { uploadToS3, GetFromS3 }
+export { uploadToS3, GetFromS3 }

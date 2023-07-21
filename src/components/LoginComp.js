@@ -20,6 +20,8 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
             sessionStorage.setItem('username', response.data.user.username)
             sessionStorage.setItem('email', response.data.user.email)
             sessionStorage.setItem('token', response.data.token)
+            sessionStorage.setItem('avatar', response.data.url)
+
             setLoggedIn(true);
         } catch (err) {
             console.log(err)
@@ -33,11 +35,11 @@ const LoginComp = ({ setLoggedIn, loggedIn}) => {
         setError("");
         try {
             const response = await axios.post('http://localhost:5000/signup', { name, password, email, username });
-
             sessionStorage.setItem('uid', response.data.user.uid)
             sessionStorage.setItem('name', response.data.user.name)
             sessionStorage.setItem('username', response.data.user.username)
             sessionStorage.setItem('email', response.data.user.email)
+            sessionStorage.setItem('avatar', response.data.user.avatar)
             sessionStorage.setItem('token', response.data.token)
             setLoggedIn(true);
         } catch (err) {

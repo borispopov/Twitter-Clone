@@ -5,6 +5,7 @@ import pool from './db.js'
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import multer from 'multer'
+import { uploadToS3, GetFromS3 } from '../src/s3.mjs';
 
 const app = express();
 
@@ -65,7 +66,9 @@ app.post('/login', async (req, res) => {
       const secret = crypto.randomBytes(32).toString('hex');
       const token = jwt.sign({ userId: user.uid}, secret)
 
-      return res.json({ user, token })
+      const key = user.avatar
+      const url = await GetFromS3({ key })
+      return res.json({ user, token, url })
     } else {
       return res.status(401).json({error: "Invalid Credentials"});
     }
@@ -94,6 +97,19 @@ app.put('/profile', async (req, res) => {
     return res.status(500).json({error: "Internal Server Error"});
   }
 });
+
+app.post('/upload', upload.single('avatar'), async (req, res) => {
+  try {
+    const file = req.file
+    const key = req.body.key
+
+    const uid = await uploadToS3({ file, key });
+    return res.send({ uid })
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({ error: "Server Error"})
+  }
+})
 
 app.listen(5000, () => {
   console.log('server on');
