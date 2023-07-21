@@ -1,15 +1,19 @@
-const bcrypt = require('bcrypt');
-const express = require('express');
-const cors = require('cors');
-const pool = require('./db')
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
+import bcrypt from 'bcrypt';
+import express from 'express';
+import cors from 'cors';
+import pool from './db.js'
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import multer from 'multer'
 
 const app = express();
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+const storage = multer.memoryStorage()
+const upload = multer({ storage: storage })
 
 // Routes
 app.post('/signup', async (req, res) => {
@@ -48,6 +52,7 @@ app.post('/login', async (req, res) => {
     // Query db for users with matching email
     const userRes = await pool.query("SELECT * FROM users WHERE email = $1", [email.toLowerCase()]);
     const user = userRes.rows[0];
+    console.log(user)
 
     // If user exists check password
     if (user) {
@@ -72,7 +77,7 @@ app.post('/login', async (req, res) => {
 app.put('/profile', async (req, res) => {
   try {
     // Update profile information
-    let { name, username, email, prevEmail } = req.body;
+    const { name, username, email, prevEmail, avatarKey } = req.body;
 
     // Query all users with the inputted email or username
     const checker = await pool.query("SELECT * FROM users WHERE (email = $1 OR username = $2) AND email <> $3", [email.toLowerCase(), username.toLowerCase(), prevEmail.toLowerCase()])
@@ -82,8 +87,7 @@ app.put('/profile', async (req, res) => {
       if (checker.rows[0].email == email.toLowerCase()) return res.status(401).json({error: "Email Already Registered"});
       else if (checker.rows[0].username == username.toLowerCase()) return res.status(401).json({error: "Username Already in Use"});
     }
-
-    const user = await pool.query("UPDATE users SET name = $1, username = $2, email = $3 WHERE email = $4", [name, username.toLowerCase(), email.toLowerCase(), prevEmail.toLowerCase()])
+    const user = await pool.query("UPDATE users SET name = $1, username = $2, email = $3, avatar = $5 WHERE email = $4 ", [name, username.toLowerCase(), email.toLowerCase(), prevEmail.toLowerCase(), avatarKey])
     return res.json({ user })
   } catch (err) {
     console.log(err);
