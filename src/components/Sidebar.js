@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import './Sidebar.css';
 import { Button } from "@mui/material";
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';

@@ -1,5 +1,5 @@
-import { Avatar, Button } from '@mui/material';
-import React, {forwardRef, useState, useEffect } from 'react'
+import { Avatar } from '@mui/material';
+import React, {useState } from 'react'
 import "./ProfileBar.css";
 import Modal from "./Modal";
 

@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef }from 'react'
-import { Avatar, Button, easing } from "@mui/material";
+import React, { useState, useRef }from 'react'
+import { Avatar, Button } from "@mui/material";
 import "./Modal.css"
 import axios from 'axios';
 import EditAvatar from './EditAvatar';
-import { v4 as uuid } from 'uuid'
 
 function Modal({ closeModal }) {
 
@@ -62,11 +61,10 @@ function Modal({ closeModal }) {
     const uploadFiles = async () => {
       try {
         console.log('files: ', file);
-        const key = `Avatars/${uuid()}`
 
         const formData = new FormData();
         formData.append('avatar', file);
-        formData.append('key', key);
+        formData.append('key', 'Avatars/'+sessionStorage.getItem('uid'));
 
         const res = await axios.post('http://localhost:5000/upload', formData, { headers: {'Content-Type': 'multipart/form-data'}})
         console.log('response: ', res)
