@@ -47,6 +47,8 @@ function Modal({ closeModal }) {
         sessionStorage.setItem('name', name);
         sessionStorage.setItem('username', username);
         sessionStorage.setItem('avatar', avatar);
+        const st = new StorageEvent('storage');
+        window.dispatchEvent(st);
         setSuccess("Profile Information Updated")
         return true
       } catch(err) {

@@ -9,9 +9,7 @@ function EditAvatar({ setAvatarEdit, avatar, setAvatar, setFile }) {
   const [ scaling, setScaling ] = useState(1)
   const editor = useRef(null)
   let value;
-  // setTimeout(() => {
-  //   setAvatarEdit(false)
-  // }, 1000)
+
   return (
     <div className="edit__background">
 

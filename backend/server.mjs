@@ -16,7 +16,7 @@ app.use(express.json());
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
-// Routes
+// Sign up user
 app.post('/signup', async (req, res) => {
   try {
     // Receive body data
@@ -45,6 +45,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
+// Login in user
 app.post('/login', async (req, res) => {
   try {
     // Receive body data
@@ -77,6 +78,7 @@ app.post('/login', async (req, res) => {
   }
 })
 
+// Insert profile information into db
 app.put('/profile', async (req, res) => {
   try {
     // Update profile information
@@ -98,6 +100,7 @@ app.put('/profile', async (req, res) => {
   }
 });
 
+// Upload Avatars to S3 Bucket
 app.post('/upload', upload.single('avatar'), async (req, res) => {
   try {
     const file = req.file

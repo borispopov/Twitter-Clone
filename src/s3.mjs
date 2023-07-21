@@ -17,15 +17,15 @@ const BUCKET = 'twitterimages1'
 
 const uploadToS3 = async ({ file, key }) => {
   try {
-    console.log('in upload: ', file)
-    const command = new PutObjectCommand({
-    Bucket: BUCKET,
-    Key: key,
-    Body: file.buffer,
-    ContentType: file.mimetype,
-    })
-    const res = await s3.send(command);
-    console.log(res)
+    if (file) {
+      const command = new PutObjectCommand({
+      Bucket: BUCKET,
+      Key: key,
+      Body: file.buffer,
+      ContentType: file.mimetype,
+      })
+      await s3.send(command);
+    }
     return key;
   } catch (err) {
     console.log(err)

@@ -15,18 +15,18 @@ function Feed() {
 
         <TweetBox />
         <FlipMove>
-        {posts.map(post => (
-        <Post
-              key={post.text}
-              displayName={post.displayName}
-              username={post.username}
-              verified={post.verified}
-              text={post.text}
-              avatar={post.avatar}
-              image={post.image}
-              time={post.time}
-              />
-        ))}
+          {posts.map(post => (
+          <Post
+                key={post.text}
+                displayName={post.displayName}
+                username={post.username}
+                verified={post.verified}
+                text={post.text}
+                avatar={post.avatar}
+                image={post.image}
+                time={post.time}
+                />
+          ))}
         </FlipMove>
 
     </div>
