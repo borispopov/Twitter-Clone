@@ -89,6 +89,14 @@ function Modal({ closeModal }) {
 
   return (
     <div className='modalBackground'  >
+      {avatarEdit ? (
+           <EditAvatar
+              setAvatarEdit={setAvatarEdit}
+              avatar={avatar}
+              setAvatar={setAvatar}
+              setFile={setFile}
+              />
+      ) : (
         <div className="modalContainer">
             <div className="titleCloseBtn">
                 <button onClick={() => closeModal(false)}> X </button>
@@ -108,13 +116,6 @@ function Modal({ closeModal }) {
                   type="image" />
                 <input type="file" ref={inputRef} style={{display: 'none'}} onChange={handleFile} accept='image/'/>
             </div>
-
-            {avatarEdit && <EditAvatar
-                              setAvatarEdit={setAvatarEdit}
-                              avatar={avatar}
-                              setAvatar={setAvatar}
-                              setFile={setFile}
-                              />}
 
             <div className="displayName__edit">
               <label >Name </label>
@@ -151,6 +152,8 @@ function Modal({ closeModal }) {
               <Button onClick={handleSave} id="submitBtn" type="submit">Save</Button>
             </div>
         </div>
+      )}
+
     </div>
   )
 }

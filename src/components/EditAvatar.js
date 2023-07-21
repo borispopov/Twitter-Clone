@@ -11,16 +11,16 @@ function EditAvatar({ setAvatarEdit, avatar, setAvatar, setFile }) {
   let value;
 
   return (
-    <div className="edit__background">
+      <div className="modalContainer">
 
-      <AvatarEditor
-        image={avatar}
-        width={300}
-        height={300}
-        border={50}
-        borderRadius={300}
-        scale={scaling}
-        ref={editor}/>
+        <AvatarEditor
+          image={avatar}
+          width={300}
+          height={300}
+          border={50}
+          borderRadius={300}
+          scale={scaling}
+          ref={editor}/>
 
         <div className="scale__slider">
           <Slider
@@ -45,7 +45,8 @@ function EditAvatar({ setAvatarEdit, avatar, setAvatar, setFile }) {
             setFile(editor.current.getImage())
           }}>Save</Button>
 
-    </div>
+      </div>
+
   )
 }
 
