@@ -79,12 +79,12 @@ function Modal({ closeModal }) {
 
     const handleFile = (e) => {
       setFile(e.target.files[0]);
-      setAvatarEdit(true)
       const reader = new FileReader();
       reader.onloadend = () => {
         setAvatar(reader.result);
       };
       reader.readAsDataURL(e.target.files[0]);
+      setAvatarEdit(true)
     }
 
   return (
@@ -112,7 +112,9 @@ function Modal({ closeModal }) {
             {avatarEdit && <EditAvatar
                               setAvatarEdit={setAvatarEdit}
                               avatar={avatar}
-                              setAvatar={setAvatar}/>}
+                              setAvatar={setAvatar}
+                              setFile={setFile}
+                              />}
 
             <div className="displayName__edit">
               <label >Name </label>

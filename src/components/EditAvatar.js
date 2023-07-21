@@ -4,7 +4,7 @@ import { Button, Slider } from '@mui/material';
 import './EditAvatar.css';
 import { useRef } from 'react';
 
-function EditAvatar({ setAvatarEdit, avatar, setAvatar }) {
+function EditAvatar({ setAvatarEdit, avatar, setAvatar, setFile }) {
 
   const [ scaling, setScaling ] = useState(1)
   const editor = useRef(null)
@@ -40,6 +40,11 @@ function EditAvatar({ setAvatarEdit, avatar, setAvatar }) {
           onClick={() => {
             setAvatarEdit(false);
             setAvatar(editor.current.getImage().toDataURL())
+            editor.current.getImage().toBlob((blob) => {
+              console.log(blob)
+              setFile(blob);
+            })
+            setFile(editor.current.getImage())
           }}>Save</Button>
 
     </div>
