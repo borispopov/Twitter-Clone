@@ -1,14 +1,45 @@
+.save {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-end ;
+  padding: 20px;
+  margin-top: auto;
+}
+
 .save__button {
-  background-color: var(--twitter-color) !important;
-  border: none !important;
-  color: white !important;
-  font-weight: 900 !important;
+  background-color: black !important;
+  color: rgb(225, 225, 225) !important;
+  font-weight: 700 !important;
   text-transform: inherit !important;
   border-radius: 30px !important;
-  align-self: center;
+  width: 80px;
+  height: 30px !important;
+  cursor: pointer ;
+  margin-right: auto;
 }
 
 .scale__slider {
-  width: 300px;
-  padding: 2px;
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  align-self: center;
+}
+
+.zoom {
+  margin: 0px 20px;
+}
+
+.MuiSlider-root {
+  min-width: 250px;
+}
+
+.editor {
+  margin: auto;
+  margin-bottom: 15px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
 }

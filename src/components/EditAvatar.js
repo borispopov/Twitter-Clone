@@ -1,6 +1,9 @@
 import React, { useState } from 'react'
 import AvatarEditor from 'react-avatar-editor'
 import { Button, Slider } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ZoomOutIcon from '@mui/icons-material/ZoomOut';
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import './EditAvatar.css';
 import { useRef } from 'react';
 
@@ -13,7 +16,15 @@ function EditAvatar({ setAvatarEdit, avatar, setAvatar, setFile }) {
   return (
       <div className="modalContainer">
 
-        <AvatarEditor
+        <div className="title">
+          <ArrowBackIcon className='close' onClick={() => {
+                                              setAvatar(sessionStorage.getItem('avatar'));
+                                              setAvatarEdit(false);
+                                            }}/>
+          <h1>Edit Media</h1>
+        </div>
+
+        <AvatarEditor className='editor'
           image={avatar}
           width={300}
           height={300}
@@ -22,28 +33,34 @@ function EditAvatar({ setAvatarEdit, avatar, setAvatar, setFile }) {
           scale={scaling}
           ref={editor}/>
 
-        <div className="scale__slider">
-          <Slider
-            value={value}
-            min={1}
-            max={2.5}
-            step={0.01}
-            onChange={(e) => {
-              setScaling(e.target.value)
+        <div className="container">
+          <div className="scale__slider">
+            <ZoomOutIcon className='zoom' />
+            <Slider
+              value={value}
+              min={1}
+              max={2.5}
+              step={0.01}
+              onChange={(e) => {
+                setScaling(e.target.value)
             }}></Slider>
-        </div>
+            <ZoomInIcon className='zoom' />
+          </div>
+          <div className="footer">
+            <Button
+            id='submitBtn'
+            onClick={() => {
+              setAvatar(editor.current.getImage().toDataURL())
+              editor.current.getImage().toBlob((blob) => {
+                console.log(blob)
+                setFile(blob);
+              })
+              setFile(editor.current.getImage());
+              setAvatarEdit(false);
+            }}>Save</Button>
+          </div>
+      </div>
 
-        <Button
-          className="save__button"
-          onClick={() => {
-            setAvatarEdit(false);
-            setAvatar(editor.current.getImage().toDataURL())
-            editor.current.getImage().toBlob((blob) => {
-              console.log(blob)
-              setFile(blob);
-            })
-            setFile(editor.current.getImage())
-          }}>Save</Button>
 
       </div>
 

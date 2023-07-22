@@ -1,28 +1,14 @@
-.modalBackground {
-  width: 100% !important;
-  height: 100% !important;
-  background-color: rgba(200, 200, 200, 0.74);
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  margin: 0;
-  top: 0;
-  left: 0;
-  cursor: default;
-  backdrop-filter: blur(5px);
-}
-
 .avatar__edit div {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
 }
 
 .avatar__edit {
   background-color: black;
   border-radius: 50%;
   opacity: 1;
+  align-self: center;
+  margin: auto;
 }
 
 .avatar__edit .MuiAvatar-root {
@@ -46,85 +32,79 @@
   font-weight: 600;
 }
 
-.titleCloseBtn {
-  display: flex;
-  align-self: flex-end;
-}
-
-.titleCloseBtn button {
-  background-color: transparent;
-  border: none;
-  font-size: 25px;
-  cursor: pointer;
-  color: white;
-  margin-right: 40px;
-}
-
-
-#cancelBtn, #submitBtn {
-  background-color: var(--twitter-color) !important;
-  border: none !important;
-  color: white !important;
-  font-weight: 900 !important;
+#submitBtn {
+  background-color: black !important;
+  color: rgb(225, 225, 225) !important;
+  font-weight: 700 !important;
   text-transform: inherit !important;
   border-radius: 30px !important;
-  width: 100px;
-  height: 40px !important;
+  width: 80px;
+  height: 30px !important;
   cursor: pointer ;
-  margin: 0 10px;
-}
-
-h1 {
-  color: rgb(255, 255, 255);
-  margin: 25px 0;
-  margin-bottom: 40px;
-  display: block;
-  font-size: 40px;
-  line-height: 1;
+  margin-right: auto;
 }
 
 .modalContainer {
-  align-items: center;
   margin: auto;
   max-width: 40%;
-  min-width: 600px;
+  min-width: 500px;
   min-height: 600px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: radial-gradient(
-    ellipse at left bottom,
-    rgba(24, 42, 86, 0.95) 0%,
-    rgba(51, 42, 122, 0.95) 55%,
-    rgba(25, 11, 104, 0.95) 100%
-  );
+  background-color: rgb(252, 252, 252);
   box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.5);
-  border-radius: 5%;
-  width: 100%;
-  padding: 24px 0;
+  border-radius: 3%;
+  width: 600px;
 }
 
+.modalBackground {
+  width: 100% !important;
+  height: 100% !important;
+  background-color: rgba(0, 0, 0, 0.4);
+  min-width: 1100px;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  margin: 0;
+  top: 0;
+  left: 0;
+  cursor: default;
+  opacity: 100;
+}
+
+
 .modalContainer label {
-  color: white;
-  margin: 14px 0;
+  color: rgb(0, 0, 0);
   display: block;
-  font-size: 22px;
+  font-size: 18px;
   line-height: 1;
+  margin: 20px 6% 6px 6%;
 }
 
 .modalContainer input {
-  width: 100%;
-  border: none;
+  width: 85%;
+  border-color: rgb(195, 195, 195);
+  border-style: ridge;
+  border-width: 1px;
+  border-radius: 5px;
   outline: none;
   font-size: 19px;
   padding: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  color: #000000;
   letter-spacing: 1px;
+  margin: 0 5%;
 }
 
 .modalContainer .footer {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-content: flex-end ;
   padding: 20px;
+  margin-top: auto;
 }
 
 .modalContainer p {
@@ -132,11 +112,21 @@ h1 {
   text-align: center;
 }
 
-.modalContainer p span {
-  color: yellow;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  margin-left: 5px;
+.modalBackground .modalContainer .title {
+  display: flex;
+  align-items: center;
+  color: rgb(0, 0, 0);
+  padding: 15px 20px;
+  font-size: 12px;
+  line-height: 1;
+  /* margin-bottom: auto; */
+}
+
+.close {
   cursor: pointer;
-  transition: all 400ms ease-in-out;
+  justify-self: flex-start;
+}
+
+.title > h1 {
+  margin-left: 50px;
 }

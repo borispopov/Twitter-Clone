@@ -1,5 +1,6 @@
 import React, { useState, useRef }from 'react'
 import { Avatar, Button } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
 import "./Modal.css"
 import axios from 'axios';
 import EditAvatar from './EditAvatar';
@@ -88,22 +89,21 @@ function Modal({ closeModal }) {
     }
 
   return (
-    <div className='modalBackground'  >
-      {avatarEdit ? (
-           <EditAvatar
-              setAvatarEdit={setAvatarEdit}
-              avatar={avatar}
-              setAvatar={setAvatar}
-              setFile={setFile}
-              />
+    <div className='modalBackground' >
+        { avatarEdit ? (
+            <EditAvatar
+                setAvatarEdit={setAvatarEdit}
+                avatar={avatar}
+                setAvatar={setAvatar}
+                setFile={setFile}
+                />
       ) : (
         <div className="modalContainer">
-            <div className="titleCloseBtn">
-                <button onClick={() => closeModal(false)}> X </button>
-            </div>
 
             <div className="title">
+                <CloseIcon className='close' onClick={() => closeModal(false)}> X </CloseIcon>
                 <h1>Edit Profile</h1>
+
             </div>
 
             <div className="avatar__edit" onClick={() => {
@@ -144,11 +144,9 @@ function Modal({ closeModal }) {
                 type="text"/>
             </div>
 
-            <p className="user__error">{userError}</p>
-            <p className="success">{success}</p>
+            {userError && <p className="user__error">{userError}</p>}
 
             <div className="footer">
-              <Button onClick={() => closeModal(false)} id="cancelBtn">Cancel</Button>
               <Button onClick={handleSave} id="submitBtn" type="submit">Save</Button>
             </div>
         </div>
