@@ -21,7 +21,7 @@ const Post = forwardRef(({ displayName, username, image, description, avatar, ti
             case timeDiff < 3600: // One Hour
                 return parseInt(timeDiff/60)+'m'
             case timeDiff >= 3600 && timeDiff < 86400: // One Day
-                return parseInt(timeDiff/3600)+' h'
+                return parseInt(timeDiff/3600)+'h'
             case timeDiff >= 86400 && timeDiff < 31536000: // One Year
                 return months[date.getMonth()] + ' ' + date.getDate()
             case timeDiff >= 31536000: // More Than One Year
@@ -29,7 +29,7 @@ const Post = forwardRef(({ displayName, username, image, description, avatar, ti
         }
       };
 
-    // console.log(displayName, username, image, description, avatar, timestamp)
+    console.log('image: ', image)
 
     return (
 
@@ -43,7 +43,10 @@ const Post = forwardRef(({ displayName, username, image, description, avatar, ti
                     <h3>
                         {displayName}{" "}
                         <span className="post__headerSpecial">
-                            @{username} {formatDate(timestamp)} {verified && <VerifiedIcon className="post__badge" />}
+                            @{username} {verified && <VerifiedIcon className="post__badge" />}
+                        </span>
+                        <span className="post__time">
+                            {' · '+formatDate(timestamp)}
                         </span>
                     </h3>
                 </div>
@@ -51,7 +54,12 @@ const Post = forwardRef(({ displayName, username, image, description, avatar, ti
                     <p>{description}</p>
                 </div>
             </div>
-            <img src={image} alt=""/>
+            {image.length > 0 ? (
+                <img src={image} />
+            ) : (
+                <div></div>
+            )}
+
             <div className="post__footer">
                 <ChatBubbleOutlineIcon fontSize="small" />
                 <RepeatOutlinedIcon fontSize="small" />

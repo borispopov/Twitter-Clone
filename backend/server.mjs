@@ -121,15 +121,15 @@ app.post('/post', upload.single('image'), async (req, res) => {
     const uid = req.body.key
     const description = req.body.description
     const likes = 0
-
     const pid = uuid()
-    const key = "Posts/" + uid + "/" + pid
+    let id = ''
+    if (file) {
+      const key = "Posts/" + uid + "/" + pid
+      id = await uploadToS3({ file, key });
+    }
 
-    const id = await uploadToS3({ file, key });
-
-    const response = await axios.post("INSERT INTO posts (uid, image, description, likes, timestamp, pid) VALUES($1, $2, $3, $4, $5, $6)", [uid, id, description, likes, Date.now(), pid])
-    console.log(response)
-    return res.send({response})
+    const response = await pool.query("INSERT INTO posts (uid, image, description, likes, timestamp, pid) VALUES($1, $2, $3, $4, $5, $6) RETURNING *", [uid, id, description, likes, parseInt(Date.now()/1000), pid])
+    return res.json({ response })
   } catch (err) {
     console.log(err)
     return res.status(500).json({ error: "Server Error"})

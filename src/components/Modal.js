@@ -101,7 +101,7 @@ function Modal({ closeModal }) {
         <div className="modalContainer">
 
             <div className="title">
-                <CloseIcon className='close' onClick={() => closeModal(false)}> X </CloseIcon>
+                <CloseIcon className='close' onClick={() => closeModal(false)} />
                 <h1>Edit Profile</h1>
 
             </div>

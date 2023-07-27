@@ -1,50 +1,95 @@
-import {useEffect, useState} from 'react'
+import {useEffect, useState, useRef} from 'react'
 import "./TweetBox.css"
 import { Avatar, Button } from "@mui/material";
+import CloseIcon from '@mui/icons-material/Close';
+import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
+import axios from 'axios';
 
 function TweetBox() {
-  const [tweetMessage, setTweetMessage] = useState ("");
-  const [tweetImage, setTweetImage] = useState ("");
+
+  const [ tweetMessage, setTweetMessage ] = useState ("");
+  const [ tweetImage, setTweetImage ] = useState ();
   const [ avatar, setAvatar ] = useState(sessionStorage.getItem('avatar'))
+  const [ file, setFile ] = useState()
+  const inputRef = useRef(null);
 
-  const sendTweet = e => {
-    e.preventDefault();
+  const sendTweet = async (e) => {
+    // e.preventDefault()
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('key', sessionStorage.getItem('uid'));
+    formData.append('description', tweetMessage)
 
-    if(tweetMessage !=="") {
+    const posted = await axios.post('http://localhost:5000/post', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+    console.log('posted: ', posted)
+  }
 
-      setTweetMessage("");
-      setTweetImage("");
-
+  const handleFile = (e) => {
+    setFile(e.target.files[0]);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setTweetImage(reader.result);
     };
-  };
+    reader.readAsDataURL(e.target.files[0]);
+  }
 
   window.addEventListener('storage', () => {
     setAvatar(sessionStorage.getItem('avatar'))
   })
 
+  useEffect(() => {
+    console.log(typeof tweetImage)
+  }, [tweetImage])
+
 return (
   <div className="tweetBox">
       <form>
           <div className="tweetBox__input">
-              <Avatar src={avatar}/>
-              <input
-                onChange={e => setTweetMessage(e.target.value)}
-                value={tweetMessage}
-                placeholder="What's happening?"
-                type="text"/>
+            <Avatar src={avatar}/>
+            <input
+              accept='image/'
+              value={tweetMessage}
+              placeholder="What's happening?"
+              type="text"
+              onChange={e => {setTweetMessage(e.target.value)}} />
           </div>
-          <input
-            value={tweetImage}
-            onChange={e => setTweetImage(e.target.value)}
-            className="tweetBox__ImageInput"
-            placeholder="Optional: Enter Image URL"
-            type="text"/>
+          <div className='input__container'>
+            <div className="input__icon" onClick={() => {
+              inputRef.current.click();
+            }}>
 
-          <Button
-            onClick={sendTweet}
-            type="submit"
-            className="tweetBox__tweetButton">Tweet
-          </Button>
+              <PhotoSizeSelectActualOutlinedIcon />
+              <input
+                ref={inputRef}
+                type='file'
+                className="tweetBox__ImageInput"
+                accept="image/"
+                onChange={handleFile} />
+
+            </div>
+            <Button
+              onClick={async () => {
+                await sendTweet();
+                setTweetImage('')
+                setFile('')
+              }}
+              type="submit"
+              className="tweetBox__tweetButton"
+              disabled={!tweetImage && !tweetMessage} >Tweet</Button>
+          </div>
+          <div className="preview">
+            {tweetImage ? (
+              <>
+                <CloseIcon
+                  className='close'
+                  onClick={() => {setTweetImage(''); setFile('');}} />
+                <img src={tweetImage} />
+              </>
+            ) : (
+              <div></div>
+            )}
+
+          </div>
       </form>
   </div>
 )};

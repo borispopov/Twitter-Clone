@@ -3,6 +3,10 @@ body {
   --twitter-background: #e6ecf0;
 }
 
+button:disabled {
+  opacity: 0.5;
+}
+
 .app {
   display: flex;
   height: 100vh;
