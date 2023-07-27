@@ -65,7 +65,7 @@ function Modal({ closeModal }) {
 
         const formData = new FormData();
         formData.append('avatar', file);
-        formData.append('key', 'Avatars/'+sessionStorage.getItem('uid'));
+        formData.append('key', sessionStorage.getItem('uid'));
 
         const res = await axios.post('http://localhost:5000/upload', formData, { headers: {'Content-Type': 'multipart/form-data'}})
         console.log('response: ', res)

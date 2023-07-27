@@ -4,7 +4,8 @@ import Feed from "./Feed";
 import Widgets from "./Widgets";
 import './Twit.css';
 
-const Twit = ({handleLogout}) => {
+const Twit = ({ handleLogout }) => {
+
   return (
     //BEM
     <div className="twit">

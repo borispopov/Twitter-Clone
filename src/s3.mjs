@@ -39,7 +39,7 @@ const GetFromS3 = async ({ key }) => {
       Bucket: BUCKET,
       Key: key,
     })
-    const url = await getSignedUrl(s3, command, { expiresIn: 3600 });
+    const url = await getSignedUrl(s3, command, { expiresIn: 86400 * 7 }); // expires in 7 days
     return url
   } catch (err) {
     return err

@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 import multer from 'multer'
 import { uploadToS3, GetFromS3 } from '../src/s3.mjs';
+import { v4 as uuid } from 'uuid'
 
 const app = express();
 
@@ -104,13 +105,66 @@ app.put('/profile', async (req, res) => {
 app.post('/upload', upload.single('avatar'), async (req, res) => {
   try {
     const file = req.file
-    const key = req.body.key
+    const key = "Avatars/" + req.body.key
 
     const uid = await uploadToS3({ file, key });
     return res.send({ uid })
   } catch (err) {
     console.log(err)
     return res.status(500).json({ error: "Server Error"})
+  }
+})
+
+app.post('/post', upload.single('image'), async (req, res) => {
+  try {
+    const file = req.file
+    const uid = req.body.key
+    const description = req.body.description
+    const likes = 0
+
+    const pid = uuid()
+    const key = "Posts/" + uid + "/" + pid
+
+    const id = await uploadToS3({ file, key });
+
+    const response = await axios.post("INSERT INTO posts (uid, image, description, likes, timestamp, pid) VALUES($1, $2, $3, $4, $5, $6)", [uid, id, description, likes, Date.now(), pid])
+    console.log(response)
+    return res.send({response})
+  } catch (err) {
+    console.log(err)
+    return res.status(500).json({ error: "Server Error"})
+  }
+})
+
+app.get('/posts', async (req, res) => {
+  try {
+    const query = req.query.query
+    let posts;
+    switch (query) {
+      case "likes":
+        posts = await pool.query("SELECT * FROM posts ORDER BY likes DESC");
+        break;
+      case typeof query === "number":
+        posts = await pool.query("SELECT * FROM posts WHERE uuid = " + query + " ORDER BY timestamp DESC");
+        break;
+      default:
+        posts = await pool.query("SELECT * FROM posts ORDER BY timestamp DESC");
+        break;
+    }
+    let post = [];
+    for (let i = 0; i < posts.rows.length; i++) {
+      const key = posts.rows[i].image
+      const uid = posts.rows[i].uid
+      const poster = await pool.query("SELECT name, username, avatar FROM users WHERE uid = " + uid)
+      const avatar = poster.rows[0].avatar
+      post.push({ image: await GetFromS3({ key }), name: poster.rows[0].name, username: poster.rows[0].username, avatarKey: poster.rows[0].avatar,
+                  avatar: await GetFromS3({ key: avatar }), description: posts.rows[i].description,  timestamp: posts.rows[i].timestamp })
+    }
+    return res.json({ post })
+  } catch (err) {
+    console.log(err)
+    console.log(err)
+    return res.status(500).json({ error: "Server Error" })
   }
 })
 
