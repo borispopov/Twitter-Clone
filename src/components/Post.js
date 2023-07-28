@@ -8,7 +8,16 @@ import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 
-const Post = forwardRef(({ displayName, username, image, description, avatar, timestamp}, ref) => {
+const Post = forwardRef(({ post }, ref) => {
+
+    const pid = post.pid
+    const displayName = post.name
+    const username = post.username
+    const image = post.image
+    const description = post.description
+    const avatar = post.avatar
+    const timestamp = post.timestamp
+    let likes = post.likes
 
     const [ verified, setVerified ] = useState()
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -16,57 +25,65 @@ const Post = forwardRef(({ displayName, username, image, description, avatar, ti
     const formatDate = (timestamp) => {
         const timeDiff = parseInt(Date.now()/1000 - timestamp)
         const date = new Date(timestamp*1000)
-        console.log(timeDiff)
         switch(true) {
-            case timeDiff < 3600: // One Hour
+            case timeDiff < 60: // seconds
+                return parseInt(timeDiff)+'s'
+            case timeDiff >= 60 && timeDiff < 3600: // minutes
                 return parseInt(timeDiff/60)+'m'
-            case timeDiff >= 3600 && timeDiff < 86400: // One Day
+            case timeDiff >= 3600 && timeDiff < 86400: // hours
                 return parseInt(timeDiff/3600)+'h'
-            case timeDiff >= 86400 && timeDiff < 31536000: // One Year
+            case timeDiff >= 86400 && timeDiff < 31536000: // days
                 return months[date.getMonth()] + ' ' + date.getDate()
             case timeDiff >= 31536000: // More Than One Year
                 return months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear()
         }
       };
 
-    console.log('image: ', image)
-
     return (
 
-    <div className="post" ref={ref}>
-        <div className="post__avatar">
-            <Avatar src={avatar} />
-        </div>
-        <div className="post__body">
-            <div className="post__header">
-                <div className="post__headerText">
-                    <h3>
-                        {displayName}{" "}
-                        <span className="post__headerSpecial">
-                            @{username} {verified && <VerifiedIcon className="post__badge" />}
-                        </span>
-                        <span className="post__time">
-                            {' · '+formatDate(timestamp)}
-                        </span>
-                    </h3>
-                </div>
-                <div className="post__headerDescription">
-                    <p>{description}</p>
-                </div>
+        <div className="post" ref={ref}>
+            <div className="post__avatar">
+                <Avatar src={avatar} />
             </div>
-            {image.length > 0 ? (
-                <img src={image} />
-            ) : (
-                <div></div>
-            )}
+            <div className="post__body">
+                <div className="post__header">
+                    <div className="post__headerText">
+                        <h3>
+                            {displayName}{" "}
+                            <span className="post__headerSpecial">
+                                @{username} {verified && <VerifiedIcon className="post__badge" />}
+                            </span>
+                            <span className="post__time">
+                                {' · '+formatDate(timestamp)}
+                            </span>
+                        </h3>
+                    </div>
+                    <div className="post__headerDescription">
+                        <p>{description}</p>
+                    </div>
+                </div>
+                {image.length > 0 ? (
+                    <img src={image} />
+                ) : (
+                    <div></div>
+                )}
 
-            <div className="post__footer">
-                <ChatBubbleOutlineIcon fontSize="small" />
-                <RepeatOutlinedIcon fontSize="small" />
-                <FavoriteBorderOutlinedIcon fontSize="small" />
-                <BookmarkBorderOutlinedIcon fontSize="small" />
+                <div className="post__footer">
+                    <div className="comments">
+                        <ChatBubbleOutlineIcon fontSize="small" className='actions' />
+                    </div>
+                    <div className="retweets">
+                        <RepeatOutlinedIcon fontSize="small" className='actions' />
+                    </div>
+                    <div className="likes">
+                        <FavoriteBorderOutlinedIcon fontSize="small" className='actions' />
+                        {likes}
+                    </div>
+                    <div className="bookmark">
+                        <BookmarkBorderOutlinedIcon fontSize="small" className='actions' />
+                    </div>
+                </div>
             </div>
-        </div>
         </div>
   );
 });

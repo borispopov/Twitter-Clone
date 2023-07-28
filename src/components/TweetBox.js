@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
 import axios from 'axios';
 
-function TweetBox() {
+function TweetBox({ setPosts }) {
 
   const [ tweetMessage, setTweetMessage ] = useState ("");
   const [ tweetImage, setTweetImage ] = useState ();
@@ -14,7 +14,7 @@ function TweetBox() {
   const inputRef = useRef(null);
 
   const sendTweet = async (e) => {
-    // e.preventDefault()
+    e.preventDefault()
     const formData = new FormData();
     formData.append('image', file);
     formData.append('key', sessionStorage.getItem('uid'));
@@ -22,6 +22,10 @@ function TweetBox() {
 
     const posted = await axios.post('http://localhost:5000/post', formData, { headers: {'Content-Type': 'multipart/form-data'}})
     console.log('posted: ', posted)
+  }
+
+  const updateFeed = () => {
+
   }
 
   const handleFile = (e) => {
@@ -68,8 +72,8 @@ return (
 
             </div>
             <Button
-              onClick={async () => {
-                await sendTweet();
+              onClick={async (e) => {
+                await sendTweet(e);
                 setTweetImage('')
                 setFile('')
               }}

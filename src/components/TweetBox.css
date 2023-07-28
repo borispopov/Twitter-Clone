@@ -44,7 +44,7 @@
   display: flex;
   flex-direction: row;
   border: var(--twitter-background);
-  border-style: solid none;
+  border-style: solid none none none;
   border-width: 1px;
   margin-left: 10px;
 }

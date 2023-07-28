@@ -8,14 +8,19 @@ import axios from 'axios';
 function Feed() {
   const [ posts, setPosts ] = useState([]);
 
-  const handleFeed = async () => {
-    const res = await axios.get('http://localhost:5000/posts')
-    console.log(res.data.post)
+  const handleFeed = async (num=0, query='all') => {
+    const res = await axios.get('http://localhost:5000/posts', {
+      params: {
+        query: query,
+        num: num
+      }
+    })
     setPosts(res.data.post)
   }
 
-  useEffect(() => {
-    handleFeed()
+  useEffect(async () => {
+    await handleFeed()
+    console.log(posts)
   }, [])
 
   return (
@@ -24,20 +29,14 @@ function Feed() {
         <h2>Home</h2>
         </div>
 
-        <TweetBox />
+        <TweetBox setPosts={setPosts} />
 
         <FlipMove>
           {posts.map(post => (
             <Post
-                displayName={post.name}
-                username={post.username}
-                image={post.image}
-                description={post.description}
-                avatar={post.avatar}
-                timestamp={post.timestamp}
-                />
+              post={post}
+              />
           ))}
-
         </FlipMove>
 
     </div>

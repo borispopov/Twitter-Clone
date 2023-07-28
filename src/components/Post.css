@@ -7,7 +7,7 @@
 
 .post__body {
   flex: 1;
-  padding: 10px 10px 10px 0px;
+  padding: 10px 10px 0px 0px;
 }
 
 .post__body > img {
@@ -57,4 +57,21 @@
   color: gray;
   font-weight: 400;
   font-size: 15px;
+}
+
+.actions {
+  cursor: pointer;
+  margin: -3px 8%;
+  padding: 5px;
+}
+
+.actions:hover {
+  background-color: rgb(235, 235, 235);
+  border-radius: 50%;
+  border-width: 20px;
+}
+
+.likes {
+  display: flex;
+  flex-direction: rows;
 }

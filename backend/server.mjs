@@ -138,10 +138,11 @@ app.post('/post', upload.single('image'), async (req, res) => {
 
 app.get('/posts', async (req, res) => {
   try {
+    let num = parseInt(req.query.num)
     const query = req.query.query
     let posts;
-    switch (query) {
-      case "likes":
+    switch (true) {
+      case query == "likes":
         posts = await pool.query("SELECT * FROM posts ORDER BY likes DESC");
         break;
       case typeof query === "number":
@@ -152,13 +153,16 @@ app.get('/posts', async (req, res) => {
         break;
     }
     let post = [];
-    for (let i = 0; i < posts.rows.length; i++) {
+    if (num < 1) num = posts.rows.length;
+    for (let i = 0; i < num; i++) {
       const key = posts.rows[i].image
       const uid = posts.rows[i].uid
+      const pid = posts.rows[i].pid
       const poster = await pool.query("SELECT name, username, avatar FROM users WHERE uid = " + uid)
       const avatar = poster.rows[0].avatar
-      post.push({ image: await GetFromS3({ key }), name: poster.rows[0].name, username: poster.rows[0].username, avatarKey: poster.rows[0].avatar,
-                  avatar: await GetFromS3({ key: avatar }), description: posts.rows[i].description,  timestamp: posts.rows[i].timestamp })
+      post.push({ image: await GetFromS3({ key }), name: poster.rows[0].name, username: poster.rows[0].username, pid: pid,
+                  avatar: await GetFromS3({ key: avatar }), description: posts.rows[i].description,  timestamp: posts.rows[i].timestamp,
+                  likes: posts.rows[i].likes })
     }
     return res.json({ post })
   } catch (err) {
