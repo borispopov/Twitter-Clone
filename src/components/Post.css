@@ -65,13 +65,54 @@
   padding: 5px;
 }
 
-.actions:hover {
-  background-color: rgb(235, 235, 235);
-  border-radius: 50%;
-  border-width: 20px;
+.likes, .comments, .retweets, .bookmarks {
+  display: flex;
+  transition: color 0.3s ease;
 }
 
-.likes {
+.likes .MuiSvgIcon-root, .comments .MuiSvgIcon-root, .retweets .MuiSvgIcon-root, .bookmarks .MuiSvgIcon-root {
+  transition: background-color 0.4s ease;
+  border-radius: 50%;
+}
+
+.likes:hover {
+  color: red;
+}
+
+.likes .MuiSvgIcon-root:hover {
+  background-color: rgba(255, 0, 0, 0.2);
+}
+
+.comments {
   display: flex;
-  flex-direction: rows;
+  transition: color 0.3s ease;
+}
+
+.comments:hover {
+  color: rgb(0, 140, 255);
+}
+
+.comments .MuiSvgIcon-root:hover {
+  background-color: rgba(0, 174, 255, 0.2);
+  border-radius: 50%;
+}
+
+.retweets:hover {
+  color: green;
+}
+
+.retweets .MuiSvgIcon-root:hover {
+  background-color: rgba(43, 255, 0, 0.2);
+  border-radius: 50%;
+}
+
+.bookmarks {
+  display: flex;
+  transition: color 0.3s ease;
+}
+
+.bookmarks .MuiSvgIcon-root:hover {
+  color: rgb(201, 25, 255);
+  background-color: rgba(174, 75, 255, 0.2);
+  border-radius: 50%;
 }

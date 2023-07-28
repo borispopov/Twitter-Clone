@@ -79,7 +79,7 @@ const Post = forwardRef(({ post }, ref) => {
                         <FavoriteBorderOutlinedIcon fontSize="small" className='actions' />
                         {likes}
                     </div>
-                    <div className="bookmark">
+                    <div className="bookmarks">
                         <BookmarkBorderOutlinedIcon fontSize="small" className='actions' />
                     </div>
                 </div>
