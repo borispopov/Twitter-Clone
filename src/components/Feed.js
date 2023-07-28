@@ -15,21 +15,26 @@ function Feed() {
         num: num
       }
     })
+    console.log(typeof res.data.post, res.data.post)
     setPosts(res.data.post)
   }
 
-  useEffect(async () => {
-    await handleFeed()
-    console.log(posts)
+  useEffect(() => {
+    async function handle() {
+      await handleFeed()
+    }
+    handle()
   }, [])
 
   return (
     <div className="feed">
         <div className="feed__header">
-        <h2>Home</h2>
+          <h2>Home</h2>
         </div>
 
-        <TweetBox setPosts={setPosts} />
+        <TweetBox
+          setPosts={setPosts}
+          handleFeed={handleFeed} />
 
         <FlipMove>
           {posts.map(post => (

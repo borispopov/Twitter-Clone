@@ -94,7 +94,6 @@
 
 .comments .MuiSvgIcon-root:hover {
   background-color: rgba(0, 174, 255, 0.2);
-  border-radius: 50%;
 }
 
 .retweets:hover {
@@ -103,7 +102,6 @@
 
 .retweets .MuiSvgIcon-root:hover {
   background-color: rgba(43, 255, 0, 0.2);
-  border-radius: 50%;
 }
 
 .bookmarks {
@@ -114,5 +112,4 @@
 .bookmarks .MuiSvgIcon-root:hover {
   color: rgb(201, 25, 255);
   background-color: rgba(174, 75, 255, 0.2);
-  border-radius: 50%;
 }

@@ -141,15 +141,20 @@ app.get('/posts', async (req, res) => {
     let num = parseInt(req.query.num)
     const query = req.query.query
     let posts;
+    if (num != 0) {
+      num = 'LIMIT '+ num
+    } else {
+      num = ''
+    }
     switch (true) {
       case query == "likes":
-        posts = await pool.query("SELECT * FROM posts ORDER BY likes DESC");
+        posts = await pool.query("SELECT * FROM posts ORDER BY likes DESC "+ num);
         break;
       case typeof query === "number":
-        posts = await pool.query("SELECT * FROM posts WHERE uuid = " + query + " ORDER BY timestamp DESC");
+        posts = await pool.query("SELECT * FROM posts WHERE uuid = "+ query + " ORDER BY timestamp DESC "+ num);
         break;
       default:
-        posts = await pool.query("SELECT * FROM posts ORDER BY timestamp DESC");
+        posts = await pool.query("SELECT * FROM posts ORDER BY timestamp DESC "+ num);
         break;
     }
     let post = [];

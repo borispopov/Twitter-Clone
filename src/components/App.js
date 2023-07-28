@@ -13,18 +13,19 @@ const App = () => {
   }
 
   useEffect(() => {
+    console.log(sessionStorage.getItem('token'))
     if (sessionStorage.getItem('token')) setLoggedIn(true);
-  }, [loggedIn])
+  }, [])
 
   console.log('loggedin?: ' + loggedIn)
 
   return (
     <div className="container">
-      {loggedIn ?
+      {loggedIn ? (
         <Twit handleLogout={handleLogout}/>
-        :
+      ) : (
         <LoginComp setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
-      }
+      )}
     </div>
   );
 };

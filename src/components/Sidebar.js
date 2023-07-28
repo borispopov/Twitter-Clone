@@ -39,8 +39,7 @@ function Sidebar({handleLogout}){
             <ProfileBar className="profile__contents" />
 
             <Button className="logout__comp" onClick={logout}>
-                Logout
-            </Button>
+                Logout</Button>
         </div>
 
     </div>
