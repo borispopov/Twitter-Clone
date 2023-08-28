@@ -39,6 +39,7 @@ function Feed() {
         <FlipMove>
           {posts.map(post => (
             <Post
+              key={post.pid}
               post={post}
               />
           ))}

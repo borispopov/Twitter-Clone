@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
 import axios from 'axios';
 
-function TweetBox({ setPosts, handleFeed }) {
+function TweetBox({ handleFeed }) {
 
   const [ tweetMessage, setTweetMessage ] = useState ("");
   const [ tweetImage, setTweetImage ] = useState ();
@@ -22,7 +22,7 @@ function TweetBox({ setPosts, handleFeed }) {
 
     const posted = await axios.post('http://localhost:5000/post', formData, { headers: {'Content-Type': 'multipart/form-data'}})
     console.log('posted: ', posted)
-    handleFeed()
+    await handleFeed()
     setTweetImage()
     setTweetMessage('')
   }

@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import "./Post.css";
 import { Avatar, Button } from '@mui/material';
 import { useState } from 'react';
@@ -7,6 +7,7 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import axios from 'axios';
 
 const Post = forwardRef(({ post }, ref) => {
 
@@ -17,14 +18,13 @@ const Post = forwardRef(({ post }, ref) => {
     const description = post.description
     const avatar = post.avatar
     const timestamp = post.timestamp
-    let likes = post.likes
-
+    const [ likes, setLikes ] = useState(post.likes)
     const [ verified, setVerified ] = useState()
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     const formatDate = (timestamp) => {
-        const timeDiff = parseInt(Date.now()/1000 - timestamp)
-        const date = new Date(timestamp*1000)
+        const timeDiff = parseInt((Date.now() - timestamp)/1000)
+        const date = new Date(timestamp)
         switch(true) {
             case timeDiff < 60: // seconds
                 return parseInt(timeDiff)+'s'
@@ -37,7 +37,17 @@ const Post = forwardRef(({ post }, ref) => {
             case timeDiff >= 31536000: // More Than One Year
                 return months[date.getMonth()] + ' ' + date.getDate() + ', ' + date.getFullYear()
         }
-      };
+    };
+
+    const updateLikes = async () => {
+        try {
+            const l = await axios.post('http://localhost:5000/like', { pid })
+            console.log(l)
+            setLikes(l.data.likes)
+        } catch (err) {
+            console.log(err)
+        }
+    }
 
     return (
 
@@ -75,9 +85,9 @@ const Post = forwardRef(({ post }, ref) => {
                     <div className="retweets">
                         <RepeatOutlinedIcon fontSize="small" className='actions' />
                     </div>
-                    <div className="likes">
+                    <div className="likes" onClick={updateLikes} >
                         <FavoriteBorderOutlinedIcon fontSize="small" className='actions' />
-                        {likes}
+                        <p>{likes}</p>
                     </div>
                     <div className="bookmarks">
                         <BookmarkBorderOutlinedIcon fontSize="small" className='actions' />
