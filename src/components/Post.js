@@ -42,7 +42,6 @@ const Post = forwardRef(({ post }, ref) => {
     const updateLikes = async () => {
         try {
             const l = await axios.post('http://localhost:5000/like', { pid })
-            console.log(l)
             setLikes(l.data.likes)
         } catch (err) {
             console.log(err)

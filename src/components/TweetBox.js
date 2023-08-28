@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
 import axios from 'axios';
 
-function TweetBox({ handleFeed }) {
+function TweetBox({ tweetRef, handleFeed }) {
 
   const [ tweetMessage, setTweetMessage ] = useState ("");
   const [ tweetImage, setTweetImage ] = useState ();
@@ -46,6 +46,7 @@ return (
           <div className="tweetBox__input">
             <Avatar src={avatar}/>
             <input
+              ref={tweetRef}
               accept='image/'
               value={tweetMessage}
               placeholder="What's happening?"

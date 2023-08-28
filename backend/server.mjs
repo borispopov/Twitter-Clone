@@ -162,7 +162,6 @@ app.get('/posts', async (req, res) => {
     return res.json({ post })
   } catch (err) {
     console.log(err)
-    console.log(err)
     return res.status(500).json({ error: "Server Error" })
   }
 })
@@ -173,6 +172,7 @@ app.post('/like', async (req, res) => {
     return res.json({ likes: response.rows[0].likes })
   } catch (err) {
     console.log(err)
+    return res.status(500).json({ error: "Server Error" })
   }
 
 })

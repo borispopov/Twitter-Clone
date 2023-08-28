@@ -10,7 +10,7 @@ import MailOutlineIcon from '@mui/icons-material/MailOutline';
 import PermIdentityIcon from '@mui/icons-material/PermIdentity';
 import ProfileBar from "./ProfileBar";
 
-function Sidebar({handleLogout}){
+function Sidebar({ tweetRef, handleLogout }){
 
     const logout = () => {
         console.log('logging out');
@@ -30,6 +30,7 @@ function Sidebar({handleLogout}){
         <Button
             variant="outlined"
             className="sidebar__tweet"
+            onClick={() => tweetRef.current.focus()}
             fullWidth >
             Tweet
         </Button>

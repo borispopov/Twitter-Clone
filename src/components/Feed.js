@@ -5,7 +5,8 @@ import "./Feed.css";
 import FlipMove from 'react-flip-move';
 import axios from 'axios';
 
-function Feed() {
+function Feed({ tweetRef }) {
+
   const [ posts, setPosts ] = useState([]);
 
   const handleFeed = async (num=0, query='all') => {
@@ -15,7 +16,6 @@ function Feed() {
         num: num
       }
     })
-    console.log(typeof res.data.post, res.data.post)
     setPosts(res.data.post)
   }
 
@@ -33,6 +33,7 @@ function Feed() {
         </div>
 
         <TweetBox
+          tweetRef={tweetRef}
           setPosts={setPosts}
           handleFeed={handleFeed} />
 
