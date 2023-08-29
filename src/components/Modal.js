@@ -42,7 +42,20 @@ function Modal({ closeModal }) {
         console.log(name, username, email, sessionStorage.getItem('email'));
         const prevEmail = sessionStorage.getItem('email');
         console.log('key: ', avatarKey)
-        const response = await axios.put('http://localhost:5000/profile', { name, username, email, prevEmail, avatarKey });
+        const response = await axios.put('http://localhost:5000/profile',
+          {
+            name,
+            username,
+            email,
+            prevEmail,
+            avatarKey,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+            },
+          }
+        );
         sessionStorage.setItem('email', email);
         sessionStorage.setItem('name', name);
         sessionStorage.setItem('username', username);
@@ -67,7 +80,7 @@ function Modal({ closeModal }) {
         formData.append('avatar', file);
         formData.append('key', sessionStorage.getItem('uid'));
 
-        const res = await axios.post('http://localhost:5000/upload', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+        const res = await axios.post('http://localhost:5000/upload', formData, { headers: {'Content-Type': 'multipart/form-data', Authorization: `Bearer ${sessionStorage.getItem('token')}`}})
         console.log('response: ', res)
         avatarKey = res.data.uid;
         return true

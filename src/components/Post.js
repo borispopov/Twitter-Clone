@@ -24,7 +24,7 @@ const Post = forwardRef(({ post }, ref) => {
 
     const formatDate = (timestamp) => {
         const timeDiff = parseInt((Date.now() - timestamp)/1000)
-        const date = new Date(timestamp)
+        const date = new Date(parseInt(timestamp))
         switch(true) {
             case timeDiff < 60: // seconds
                 return parseInt(timeDiff)+'s'
@@ -41,7 +41,14 @@ const Post = forwardRef(({ post }, ref) => {
 
     const updateLikes = async () => {
         try {
-            const l = await axios.post('http://localhost:5000/like', { pid })
+            const l = await axios.post('http://localhost:5000/like',
+                { pid: pid },
+                {
+                  headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+                  },
+                }
+              );
             setLikes(l.data.likes)
         } catch (err) {
             console.log(err)
@@ -63,7 +70,7 @@ const Post = forwardRef(({ post }, ref) => {
                                 @{username} {verified && <VerifiedIcon className="post__badge" />}
                             </span>
                             <span className="post__time">
-                                {' · '+formatDate(timestamp)}
+                                {' · ' + formatDate(timestamp)}
                             </span>
                         </h3>
                     </div>

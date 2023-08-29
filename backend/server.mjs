@@ -16,6 +16,29 @@ app.use(express.json());
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
+const secretKey = 'what'
+
+function authenticateToken(req, res, next) {
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+
+    if (!token) {
+      return res.status(401).json({ message: 'Token missing' });
+    }
+
+    jwt.verify(token, secretKey, (err) => {
+      if (err) {
+        console.log(err)
+        return res.status(401).json({ message: 'Token invalid' });
+      }
+    });
+    next()
+  } catch (err) {
+    console.log(err)
+    return res.status(500).send({ message: 'Internal Server Error' })
+  }
+}
+
 // Sign up user
 app.post('/signup', async (req, res) => {
   try {
@@ -31,8 +54,7 @@ app.post('/signup', async (req, res) => {
 
     const newUser = await pool.query("INSERT INTO users (name, password, email, username) VALUES($1, $2, $3, $4) RETURNING *", [name, hashPassword, email.toLowerCase(), username.toLowerCase()]);
     const user = newUser.rows[0];
-    const secret = crypto.randomBytes(32).toString('hex');
-    const token = jwt.sign({ userId: user.uid}, secret)
+    const token = jwt.sign({ userId: user.uid}, secretKey, { expiresIn: '6h' });
     console.log('signed up: ', user.email)
 
     return res.json({ user, newUser, token })
@@ -49,22 +71,22 @@ app.post('/login', async (req, res) => {
 
     const userRes = await pool.query("SELECT * FROM users WHERE email = $1", [email.toLowerCase()]);
     const user = userRes.rows[0];
-    console.log('logged in: ', user.email)
 
     if (user) {
       const passMatch = await bcrypt.compare(password, user.password);
       if (!passMatch) {
-        return res.status(401).json({error: "Invalid Credentials"});
+        return res.status(400).json({error: "Invalid Credentials"});
       }
 
-      const secret = crypto.randomBytes(32).toString('hex');
-      const token = jwt.sign({ userId: user.uid}, secret)
+      const token = jwt.sign({ userId: user.uid}, secretKey, { expiresIn: '6h' })
 
       const key = user.avatar
       const url = await GetFromS3({ key })
+      console.log('logged in: ', user.email)
+
       return res.json({ user, token, url })
     } else {
-      return res.status(401).json({error: "Invalid Credentials"});
+      return res.status(400).json({error: "Invalid Credentials"});
     }
   } catch (err) {
     return res.status(500).json({error: "Internal Server Error"});
@@ -72,7 +94,7 @@ app.post('/login', async (req, res) => {
 })
 
 // Insert profile information into db
-app.put('/profile', async (req, res) => {
+app.put('/profile', authenticateToken, async (req, res) => {
   try {
     const { name, username, email, prevEmail, avatarKey } = req.body;
 
@@ -91,7 +113,7 @@ app.put('/profile', async (req, res) => {
 });
 
 // Upload Avatars to S3 Bucket
-app.post('/upload', upload.single('avatar'), async (req, res) => {
+app.post('/upload', authenticateToken, upload.single('avatar'), async (req, res) => {
   try {
     const file = req.file
     const key = "Avatars/" + req.body.key
@@ -104,7 +126,7 @@ app.post('/upload', upload.single('avatar'), async (req, res) => {
   }
 })
 
-app.post('/post', upload.single('image'), async (req, res) => {
+app.post('/post', upload.single('image'), authenticateToken, async (req, res) => {
   try {
     const file = req.file
     const uid = req.body.key
@@ -126,7 +148,7 @@ app.post('/post', upload.single('image'), async (req, res) => {
   }
 })
 
-app.get('/posts', async (req, res) => {
+app.get('/posts', authenticateToken, async (req, res) => {
   try {
     let num = parseInt(req.query.num)
     const query = req.query.query
@@ -166,7 +188,7 @@ app.get('/posts', async (req, res) => {
   }
 })
 
-app.post('/like', async (req, res) => {
+app.post('/like', authenticateToken, async (req, res) => {
   try {
     const response = await pool.query('UPDATE posts SET likes = likes + 1 WHERE pid = $1 RETURNING likes', [req.body.pid]);
     return res.json({ likes: response.rows[0].likes })

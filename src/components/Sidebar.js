@@ -13,7 +13,6 @@ import ProfileBar from "./ProfileBar";
 function Sidebar({ tweetRef, handleLogout }){
 
     const logout = () => {
-        console.log('logging out');
         handleLogout();
     }
 

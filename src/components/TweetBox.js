@@ -20,7 +20,11 @@ function TweetBox({ tweetRef, handleFeed }) {
     formData.append('key', sessionStorage.getItem('uid'));
     formData.append('description', tweetMessage)
 
-    const posted = await axios.post('http://localhost:5000/post', formData, { headers: {'Content-Type': 'multipart/form-data'}})
+    const posted = await axios.post('http://localhost:5000/post', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      }})
     console.log('posted: ', posted)
     await handleFeed()
     setTweetImage()

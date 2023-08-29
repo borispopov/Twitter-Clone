@@ -7,24 +7,26 @@ const App = () => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogout = () => {
+    sessionStorage.removeItem('avatar');
+    sessionStorage.removeItem('email');
+    sessionStorage.removeItem('name');
+    sessionStorage.removeItem('uid');
+    sessionStorage.removeItem('username');
     sessionStorage.removeItem('token');
-    console.log('token removed')
+
     setLoggedIn(false);
   }
 
   useEffect(() => {
-    console.log(sessionStorage.getItem('token'))
-    if (sessionStorage.getItem('token')) setLoggedIn(true);
-  }, [])
-
-  console.log('loggedin?: ' + loggedIn)
+    sessionStorage.getItem('token') ? setLoggedIn(true) : setLoggedIn(false)
+  })
 
   return (
     <div className="container">
       {loggedIn ? (
         <Twit handleLogout={handleLogout}/>
       ) : (
-        <LoginComp setLoggedIn={setLoggedIn} loggedIn={loggedIn}/>
+        <LoginComp setLoggedIn={setLoggedIn} />
       )}
     </div>
   );

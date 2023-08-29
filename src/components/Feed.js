@@ -10,12 +10,17 @@ function Feed({ tweetRef }) {
   const [ posts, setPosts ] = useState([]);
 
   const handleFeed = async (num=0, query='all') => {
+    console.log('above call')
     const res = await axios.get('http://localhost:5000/posts', {
       params: {
         query: query,
-        num: num
-      }
+        num: num,
+      },
+      headers: {
+        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+      },
     })
+    console.log('all the posts', res.data)
     setPosts(res.data.post)
   }
 
