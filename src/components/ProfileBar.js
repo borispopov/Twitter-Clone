@@ -1,37 +1,27 @@
 import { Avatar } from '@mui/material';
-import React, {useState } from 'react'
+import React from 'react'
 import "./ProfileBar.css";
-import Modal from "./Modal";
-
 
 const ProfileBar = () => {
 
-    const [openModal, setOpenModal] = useState(false);
-
     return (
 
-    <div className="profile" >
+    <div >
         <div className="profileCtn">
-            <div className="profile__avatar" onClick={() => {setOpenModal(true)}}>
+            <div className="profile__avatar" onClick={() => {console.log('open dropdown')}}>
                     <Avatar src={sessionStorage.getItem('avatar')}/>
                 </div>
 
             <div className="profile__cont">
-                        <div className="profile__displayName" onClick={() => {setOpenModal(true)}}>
+                        <div className="profile__displayName" onClick={() => {console.log('open dropdown')}}>
                 {sessionStorage.getItem('name')}
                 </div>
 
-                <div className="profile__username" onClick={() => {setOpenModal(true)}}>
+                <div className="profile__username" onClick={() => {console.log('open dropdown')}}>
                 @{sessionStorage.getItem('username')}
                 </div>
             </div>
         </div>
-
-        {openModal && <Modal
-                        closeModal={setOpenModal}
-                        />}
-
-
     </div>
 
     );

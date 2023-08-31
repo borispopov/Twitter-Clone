@@ -150,28 +150,29 @@ app.post('/post', upload.single('image'), authenticateToken, async (req, res) =>
 
 app.get('/posts', async (req, res) => {
   try {
-    let num = parseInt(req.query.num)
-    const query = req.query.query
+    const regex = /^[0-9]+$/;
+    let limit = parseInt(req.query.limit)
+    const sorting = req.query.sorting
     let posts;
-    if (num != 0) {
-      num = 'LIMIT '+ num
+    if (limit != 0) {
+      limit = 'LIMIT '+ limit
     } else {
-      num = ''
+      limit = ''
     }
     switch (true) {
-      case query == "likes":
-        posts = await pool.query("SELECT * FROM posts ORDER BY likes DESC "+ num);
+      case sorting == "likes":
+        posts = await pool.query("SELECT * FROM posts ORDER BY likes DESC "+ limit);
         break;
-      case typeof query === "number":
-        posts = await pool.query("SELECT * FROM posts WHERE uuid = "+ query + " ORDER BY timestamp DESC "+ num);
+      case regex.test(sorting):
+        posts = await pool.query(`SELECT * FROM posts WHERE uid = $1 ORDER BY timestamp DESC ` + limit, [sorting]);
         break;
       default:
-        posts = await pool.query("SELECT * FROM posts ORDER BY timestamp DESC "+ num);
+        posts = await pool.query("SELECT * FROM posts ORDER BY timestamp DESC "+ limit);
         break;
     }
     let post = [];
-    if (num < 1) num = posts.rows.length;
-    for (let i = 0; i < num; i++) {
+    if (limit < 1) limit = posts.rows.length;
+    for (let i = 0; i < limit; i++) {
       const key = posts.rows[i].image
       const uid = posts.rows[i].uid
       const pid = posts.rows[i].pid

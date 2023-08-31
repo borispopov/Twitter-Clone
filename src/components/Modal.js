@@ -5,7 +5,7 @@ import "./Modal.css"
 import axios from 'axios';
 import EditAvatar from './EditAvatar';
 
-function Modal({ closeModal }) {
+function Modal({ setOpenModal }) {
 
     window.Buffer = window.Buffer || require("buffer").Buffer;
 
@@ -25,7 +25,7 @@ function Modal({ closeModal }) {
       let res = await handleError();
       if (res) { res = await uploadFiles(); }
       if (res) { res = await updateProfile(); }
-      if (res) { closeModal(false); }
+      if (res) { setOpenModal(false); }
     }
 
     const handleError = async () => {
@@ -114,7 +114,7 @@ function Modal({ closeModal }) {
         <div className="modalContainer">
 
             <div className="title">
-                <CloseIcon className='close' onClick={() => closeModal(false)} />
+                <CloseIcon className='close' onClick={() => setOpenModal(false)} />
                 <h1>Edit Profile</h1>
 
             </div>

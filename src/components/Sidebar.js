@@ -28,13 +28,13 @@ function Sidebar({ tweetRef, handleLogout, loggedIn }){
         <Link to='/explore' >
             <SidebarOption Icon={SearchIcon} text="Explore"/>
         </Link>
-        <Link to='/notifications' >
+        <Link to={loggedIn ? '/notifications' : '/login'} >
             <SidebarOption Icon={NotificationsNoneIcon} text="Notifications"/>
         </Link>
-        <Link to='/messages' >
+        <Link to={loggedIn ? '/messages' : '/login'} >
             <SidebarOption Icon={MailOutlineIcon} text="Messages"/>
         </Link>
-        <Link to='/profile' >
+        <Link to={loggedIn ? '/profile' : '/login'} >
             <SidebarOption Icon={PermIdentityIcon} text="Profile"/>
         </Link>
 

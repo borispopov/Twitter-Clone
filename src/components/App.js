@@ -4,6 +4,7 @@ import jwt_decode from 'jwt-decode';
 import Login from "../pages/Login";
 import Home from "../pages/Home";
 import './App.css';
+import Profile from "../pages/Profile";
 
 const App = () => {
   const [loggedIn, setLoggedIn] = useState(localStorage.getItem('token') ? true : false);
@@ -35,12 +36,22 @@ const App = () => {
     }
   }, [])
 
+  useEffect(() => {
+    if (!loggedIn){
+      sessionStorage.removeItem('avatar')
+      sessionStorage.removeItem('name')
+      sessionStorage.removeItem('username')
+      sessionStorage.removeItem('email')
+      sessionStorage.removeItem('uid')
+    }
+  }, [loggedIn])
+
   return (
     <Router>
       <Routes>
         <Route exact path='/' element={<Home handleLogout={handleLogout} loggedIn={loggedIn}/>}/>
         <Route path="/login" element={<Login setLoggedIn={setLoggedIn} />} />
-        <Route />
+        <Route path="/profile" element={<Profile handleLogout={handleLogout} loggedIn={loggedIn} />} />
       </Routes>
     </Router>
   );

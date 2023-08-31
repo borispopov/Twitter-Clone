@@ -7,6 +7,10 @@ button:disabled {
   opacity: 0.5;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 .app {
   display: flex;
   height: 100vh;
