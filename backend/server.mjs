@@ -29,9 +29,10 @@ function authenticateToken(req, res, next) {
     jwt.verify(token, process.env.SECRET_KEY, (err) => {
       if (err) {
         return res.status(401).json({ message: 'Token invalid' });
+      } else {
+        next()
       }
     });
-    next()
   } catch (err) {
     console.log(err)
     return res.status(500).send({ message: 'Internal Server Error' })
@@ -53,7 +54,7 @@ app.post('/signup', async (req, res) => {
 
     const newUser = await pool.query("INSERT INTO users (name, password, email, username) VALUES($1, $2, $3, $4) RETURNING *", [name, hashPassword, email.toLowerCase(), username.toLowerCase()]);
     const user = newUser.rows[0];
-    const token = jwt.sign({ userId: user.uid}, process.env.SECRET_KEY, { expiresIn: '10h' });
+    const token = jwt.sign({ userId: user.uid}, process.env.SECRET_KEY, { expiresIn: '12h' });
     console.log('signed up: ', user.email)
 
     return res.json({ user, newUser, token })
@@ -77,7 +78,7 @@ app.post('/login', async (req, res) => {
         return res.status(400).json({error: "Invalid Credentials"});
       }
 
-      const token = jwt.sign({ userId: user.uid}, process.env.SECRET_KEY, { expiresIn: '10h' })
+      const token = jwt.sign({ userId: user.uid}, process.env.SECRET_KEY, { expiresIn: '12h' })
 
       const key = user.avatar
       const url = await GetFromS3({ key })

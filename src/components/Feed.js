@@ -38,7 +38,7 @@ function Feed({ tweetRef, loggedIn }) {
           handleFeed={handleFeed}
           loggedIn={loggedIn} />
 
-        <FlipMove>
+        <FlipMove appearAnimation='accordionVertical' staggerDelayBy={20.69420} >
           {posts.map(post => (
             <Post
               key={post.pid}

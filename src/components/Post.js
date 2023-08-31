@@ -1,8 +1,7 @@
-import React, { forwardRef, useEffect } from 'react'
+import React, { forwardRef } from 'react'
 import "./Post.css";
-import { Avatar, Button } from '@mui/material';
+import { Avatar } from '@mui/material';
 import { useState } from 'react';
-import VerifiedIcon from '@mui/icons-material/Verified';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -19,7 +18,6 @@ const Post = forwardRef(({ post, loggedIn }, ref) => {
     const avatar = post.avatar
     const timestamp = post.timestamp
     const [ likes, setLikes ] = useState(post.likes)
-    const [ verified, setVerified ] = useState()
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
     const formatDate = (timestamp) => {
@@ -72,7 +70,7 @@ const Post = forwardRef(({ post, loggedIn }, ref) => {
                         <h3>
                             {displayName}{" "}
                             <span className="post__headerSpecial">
-                                @{username} {verified && <VerifiedIcon className="post__badge" />}
+                                @{username}
                             </span>
                             <span className="post__time">
                                 {' · ' + formatDate(timestamp)}

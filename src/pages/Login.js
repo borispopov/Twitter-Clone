@@ -25,15 +25,9 @@ const Login = ({ setLoggedIn }) => {
             sessionStorage.setItem('avatar', response.data.url)
             localStorage.setItem('token', response.data.token)
 
-            setTimeout(() => {
-                localStorage.removeItem('token')
-                navigate('/login')
-                setLoggedIn(false);
-            }, 36000000);
-
+            setLoggedIn(true);
             navigate('/')
 
-            setLoggedIn(true);
         } catch (err) {
             console.log(err)
             setError(err.response.data.error);
@@ -53,15 +47,9 @@ const Login = ({ setLoggedIn }) => {
             sessionStorage.setItem('avatar', response.data.user.avatar)
             localStorage.setItem('token', response.data.token)
 
-            setTimeout(() => {
-                localStorage.removeItem('token')
-                navigate('/login')
-                setLoggedIn(false);
-            }, 36000000);
-
+            setLoggedIn(true);
             navigate('/')
 
-            setLoggedIn(true);
         } catch (err) {
             setError(err.response.data.error);
             console.log(err)
