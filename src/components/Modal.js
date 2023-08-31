@@ -52,7 +52,7 @@ function Modal({ closeModal }) {
           },
           {
             headers: {
-              Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+              Authorization: `Bearer ${localStorage.getItem('token')}`,
             },
           }
         );
@@ -80,7 +80,7 @@ function Modal({ closeModal }) {
         formData.append('avatar', file);
         formData.append('key', sessionStorage.getItem('uid'));
 
-        const res = await axios.post('http://localhost:5000/upload', formData, { headers: {'Content-Type': 'multipart/form-data', Authorization: `Bearer ${sessionStorage.getItem('token')}`}})
+        const res = await axios.post('http://localhost:5000/upload', formData, { headers: {'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}`}})
         console.log('response: ', res)
         avatarKey = res.data.uid;
         return true

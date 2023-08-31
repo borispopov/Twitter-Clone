@@ -5,7 +5,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined';
 import axios from 'axios';
 
-function TweetBox({ tweetRef, handleFeed }) {
+function TweetBox({ tweetRef, handleFeed, loggedIn }) {
 
   const [ tweetMessage, setTweetMessage ] = useState ("");
   const [ tweetImage, setTweetImage ] = useState ();
@@ -23,7 +23,7 @@ function TweetBox({ tweetRef, handleFeed }) {
     const posted = await axios.post('http://localhost:5000/post', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       }})
     console.log('posted: ', posted)
     await handleFeed()
@@ -79,7 +79,7 @@ return (
               }}
               type="submit"
               className="tweetBox__tweetButton"
-              disabled={!tweetImage && !tweetMessage} >Tweet</Button>
+              disabled={!tweetImage && !tweetMessage || !loggedIn} >Tweet</Button>
           </div>
           <div className="preview">
             {tweetImage ? (

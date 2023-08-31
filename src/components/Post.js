@@ -9,7 +9,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
 import axios from 'axios';
 
-const Post = forwardRef(({ post }, ref) => {
+const Post = forwardRef(({ post, loggedIn }, ref) => {
 
     const pid = post.pid
     const displayName = post.name
@@ -41,15 +41,20 @@ const Post = forwardRef(({ post }, ref) => {
 
     const updateLikes = async () => {
         try {
-            const l = await axios.post('http://localhost:5000/like',
-                { pid: pid },
-                {
-                  headers: {
-                    Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-                  },
-                }
-              );
-            setLikes(l.data.likes)
+            if (loggedIn) {
+                const l = await axios.post('http://localhost:5000/like',
+                    { pid: pid },
+                    {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
+                    }
+                );
+                setLikes(l.data.likes)
+            } else {
+                window.location.href = '/login'
+            }
+
         } catch (err) {
             console.log(err)
         }

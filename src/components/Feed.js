@@ -5,28 +5,23 @@ import "./Feed.css";
 import FlipMove from 'react-flip-move';
 import axios from 'axios';
 
-function Feed({ tweetRef }) {
+function Feed({ tweetRef, loggedIn }) {
 
   const [ posts, setPosts ] = useState([]);
 
   const handleFeed = async (num=0, query='all') => {
-    console.log('above call')
     const res = await axios.get('http://localhost:5000/posts', {
       params: {
         query: query,
         num: num,
       },
-      headers: {
-        Authorization: `Bearer ${sessionStorage.getItem('token')}`,
-      },
     })
-    console.log('all the posts', res.data)
     setPosts(res.data.post)
   }
 
   useEffect(() => {
     async function handle() {
-      await handleFeed()
+      await handleFeed();
     }
     handle()
   }, [])
@@ -40,13 +35,15 @@ function Feed({ tweetRef }) {
         <TweetBox
           tweetRef={tweetRef}
           setPosts={setPosts}
-          handleFeed={handleFeed} />
+          handleFeed={handleFeed}
+          loggedIn={loggedIn} />
 
         <FlipMove>
           {posts.map(post => (
             <Post
               key={post.pid}
               post={post}
+              loggedIn={loggedIn}
               />
           ))}
         </FlipMove>

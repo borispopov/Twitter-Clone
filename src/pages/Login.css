@@ -1,7 +1,7 @@
 .login {
   width: 100%;
   min-height: 100vh;
-  background: #e3e9f8;
+  background: #ffffff;
   display: flex;
 }
 
@@ -25,12 +25,12 @@
   justify-content: center;
   background: radial-gradient(
     ellipse at left bottom,
-    rgb(37, 41, 83) 0%,
-    rgba(42, 70, 122, 0.9) 59%,
-    rgba(11, 26, 104, 0.9) 100%
+    rgba(37, 41, 83, 0.85) 0%,
+    rgba(42, 70, 122, 0.85) 59%,
+    rgba(11, 26, 104, 0.85) 100%
   );
-  box-shadow: 0 50px 70px -20px rgba(0, 0, 0, 0.8);
-  border-radius: 12%;
+  box-shadow: 0 50px 70px -5px rgba(0, 0, 0, 0.6);
+  border-radius: 5%;
 }
 
 .login .loginContainer label {

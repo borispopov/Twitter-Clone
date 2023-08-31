@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import './LoginComp.css'
+import React, { useEffect, useState } from 'react'
+import { useNavigate } from "react-router-dom";
+import './Login.css'
 import axios from 'axios';
 import { Button } from "@mui/material";
 
-const LoginComp = ({ setLoggedIn }) => {
+const Login = ({ setLoggedIn }) => {
 
     const [ name, setName ] = useState("");
     const [ username, setUsername ] = useState("");
@@ -11,6 +12,7 @@ const LoginComp = ({ setLoggedIn }) => {
     const [ password, setPassword ] = useState("");
     const [ hasAccount, setHasAccount ] = useState(true);
     const [ error, setError ] = useState("");
+    const navigate = useNavigate();
 
     const handleLogin = async () => {
         setError("");
@@ -20,8 +22,16 @@ const LoginComp = ({ setLoggedIn }) => {
             sessionStorage.setItem('name', response.data.user.name)
             sessionStorage.setItem('username', response.data.user.username)
             sessionStorage.setItem('email', response.data.user.email)
-            sessionStorage.setItem('token', response.data.token)
             sessionStorage.setItem('avatar', response.data.url)
+            localStorage.setItem('token', response.data.token)
+
+            setTimeout(() => {
+                localStorage.removeItem('token')
+                navigate('/login')
+                setLoggedIn(false);
+            }, 36000000);
+
+            navigate('/')
 
             setLoggedIn(true);
         } catch (err) {
@@ -41,7 +51,16 @@ const LoginComp = ({ setLoggedIn }) => {
             sessionStorage.setItem('username', response.data.user.username)
             sessionStorage.setItem('email', response.data.user.email)
             sessionStorage.setItem('avatar', response.data.user.avatar)
-            sessionStorage.setItem('token', response.data.token)
+            localStorage.setItem('token', response.data.token)
+
+            setTimeout(() => {
+                localStorage.removeItem('token')
+                navigate('/login')
+                setLoggedIn(false);
+            }, 36000000);
+
+            navigate('/')
+
             setLoggedIn(true);
         } catch (err) {
             setError(err.response.data.error);
@@ -66,6 +85,10 @@ const LoginComp = ({ setLoggedIn }) => {
         handleLogin();
     }
 
+    useEffect(() => {
+        if (localStorage.getItem('token')) window.location.href = '/'
+    }, [])
+
     return (
         <section className="login">
 
@@ -73,7 +96,7 @@ const LoginComp = ({ setLoggedIn }) => {
                 <div className="btnContainer">
                     {hasAccount ? (
                         <>
-                        <h2>Welcome Back Brother</h2>
+                        <h2>Welcome Back</h2>
                         <label>Email</label>
                         <input type="text" autoFocus required value={email} onChange={(e) => setEmail(e.target.value)} />
                         <label>Password</label>
@@ -84,7 +107,7 @@ const LoginComp = ({ setLoggedIn }) => {
                         </>
                     ) : (
                         <>
-                        <h2>Welcome Ser</h2>
+                        <h2>Welcome</h2>
                         <label >Name</label>
                         <input type="text" autoFocus required value={name} onChange={(e) => setName(e.target.value)} />
                         <label>Email</label>
@@ -104,4 +127,4 @@ const LoginComp = ({ setLoggedIn }) => {
     )
 };
 
-export default LoginComp;
+export default Login;

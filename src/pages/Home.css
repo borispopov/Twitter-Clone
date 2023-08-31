@@ -3,7 +3,7 @@ body {
   --twitter-background: #e6ecf0;
 }
 
-.twit {
+.home {
   display: flex;
   height: 100vh;
   margin-left: auto;

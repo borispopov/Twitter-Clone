@@ -1,22 +1,22 @@
+import dotenv from 'dotenv'
 import bcrypt from 'bcrypt';
 import express from 'express';
 import cors from 'cors';
 import pool from './db.js'
 import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
 import multer from 'multer'
 import { uploadToS3, GetFromS3 } from '../src/s3.mjs';
 import { v4 as uuid } from 'uuid'
 
 const app = express();
 
+dotenv.config()
+
 app.use(cors());
 app.use(express.json());
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
-
-const secretKey = 'what'
 
 function authenticateToken(req, res, next) {
   try {
@@ -26,9 +26,8 @@ function authenticateToken(req, res, next) {
       return res.status(401).json({ message: 'Token missing' });
     }
 
-    jwt.verify(token, secretKey, (err) => {
+    jwt.verify(token, process.env.SECRET_KEY, (err) => {
       if (err) {
-        console.log(err)
         return res.status(401).json({ message: 'Token invalid' });
       }
     });
@@ -54,7 +53,7 @@ app.post('/signup', async (req, res) => {
 
     const newUser = await pool.query("INSERT INTO users (name, password, email, username) VALUES($1, $2, $3, $4) RETURNING *", [name, hashPassword, email.toLowerCase(), username.toLowerCase()]);
     const user = newUser.rows[0];
-    const token = jwt.sign({ userId: user.uid}, secretKey, { expiresIn: '6h' });
+    const token = jwt.sign({ userId: user.uid}, process.env.SECRET_KEY, { expiresIn: '10h' });
     console.log('signed up: ', user.email)
 
     return res.json({ user, newUser, token })
@@ -78,7 +77,7 @@ app.post('/login', async (req, res) => {
         return res.status(400).json({error: "Invalid Credentials"});
       }
 
-      const token = jwt.sign({ userId: user.uid}, secretKey, { expiresIn: '6h' })
+      const token = jwt.sign({ userId: user.uid}, process.env.SECRET_KEY, { expiresIn: '10h' })
 
       const key = user.avatar
       const url = await GetFromS3({ key })
@@ -148,7 +147,7 @@ app.post('/post', upload.single('image'), authenticateToken, async (req, res) =>
   }
 })
 
-app.get('/posts', authenticateToken, async (req, res) => {
+app.get('/posts', async (req, res) => {
   try {
     let num = parseInt(req.query.num)
     const query = req.query.query
