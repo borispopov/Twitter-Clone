@@ -12,14 +12,14 @@ const App = () => {
   const handleLogout = () => {
     sessionStorage.removeItem('avatar');
     sessionStorage.removeItem('email');
+    sessionStorage.removeItem('bio')
     sessionStorage.removeItem('name');
     sessionStorage.removeItem('uid');
     sessionStorage.removeItem('username');
     localStorage.removeItem('token');
+    setLoggedIn(false);
 
     window.location.href = '/login'
-
-    setLoggedIn(false);
   }
 
   useEffect(() => {
@@ -40,6 +40,7 @@ const App = () => {
     if (!loggedIn){
       sessionStorage.removeItem('avatar')
       sessionStorage.removeItem('name')
+      sessionStorage.removeItem('bio')
       sessionStorage.removeItem('username')
       sessionStorage.removeItem('email')
       sessionStorage.removeItem('uid')

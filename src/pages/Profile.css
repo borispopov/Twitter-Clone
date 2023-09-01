@@ -48,6 +48,7 @@
   position: absolute;
   right: 20px;
   top: 1vw;
+  text-transform: none;
 }
 
 .profile__pfp .profile__btn:hover {
@@ -61,4 +62,8 @@
 
 .info__container {
   padding: 15px 1vw;
+}
+
+.bio {
+  margin-top: 20px;
 }

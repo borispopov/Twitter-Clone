@@ -1,4 +1,4 @@
-import React, { useState, useRef }from 'react'
+import React, { useState, useEffect, useRef }from 'react'
 import { Avatar, Button } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 import "./Modal.css"
@@ -7,99 +7,111 @@ import EditAvatar from './EditAvatar';
 
 function Modal({ setOpenModal }) {
 
-    window.Buffer = window.Buffer || require("buffer").Buffer;
+  window.Buffer = window.Buffer || require("buffer").Buffer;
+  const modalRef = useRef(null)
+  const [ userError, setUserError ] = useState("");
+  const [ bio, setBio ] = useState(sessionStorage.getItem('bio'));
+  const [ name, setName ] = useState(sessionStorage.getItem('name'));
+  const [ username, setUsername ] = useState(sessionStorage.getItem('username'));
+  const [ email, setEmail ] = useState(sessionStorage.getItem('email'));
+  const [ avatar, setAvatar ] = useState(sessionStorage.getItem('avatar'));
+  const [ avatarEdit, setAvatarEdit ] = useState(false);
+  const [ file, setFile ] = useState('');
+  let avatarKey = '';
 
-    const [ userError, setUserError ] = useState("");
-    const [ success, setSuccess ] = useState("");
-    const [ name, setName ] = useState(sessionStorage.getItem('name'));
-    const [ username, setUsername ] = useState(sessionStorage.getItem('username'));
-    const [ email, setEmail ] = useState(sessionStorage.getItem('email'));
-    const [ avatar, setAvatar ] = useState(sessionStorage.getItem('avatar'));
-    const [ avatarEdit, setAvatarEdit ] = useState(false)
-    const [ file, setFile ] = useState('')
-    let avatarKey = '';
+  const inputRef = useRef(null);
 
-    const inputRef = useRef(null);
+  const handleSave = async () => {
+    let res = await handleError();
+    if (res) { res = await uploadFiles(); }
+    if (res) { res = await updateProfile(); }
+    if (res) { setOpenModal(false); }
+  }
 
-    const handleSave = async () => {
-      let res = await handleError();
-      if (res) { res = await uploadFiles(); }
-      if (res) { res = await updateProfile(); }
-      if (res) { setOpenModal(false); }
-    }
+  const handleError = async () => {
+    setUserError("");
+    if (username.length < 3) {setUserError("Username Must be at Least 3 Characters"); return false;}
+    else if (!email.includes('@') || !email.includes('.')) {setUserError("Invalid Email"); return false;}
+    setUsername(username.toLowerCase());
+    setEmail(email.toLowerCase());
+    return true;
+  }
 
-    const handleError = async () => {
-      setUserError("");
-      if (username.length < 3) {setUserError("Username Must be at Least 3 Characters"); return false;}
-      else if (!email.includes('@') || !email.includes('.')) {setUserError("Invalid Email"); return false;}
-      setUsername(username.toLowerCase());
-      setEmail(email.toLowerCase());
-      return true;
-    }
-
-    const updateProfile = async () => {
-      try {
-        console.log(name, username, email, sessionStorage.getItem('email'));
-        const prevEmail = sessionStorage.getItem('email');
-        console.log('key: ', avatarKey)
-        const response = await axios.put('http://localhost:5000/profile',
-          {
-            name,
-            username,
-            email,
-            prevEmail,
-            avatarKey,
+  const updateProfile = async () => {
+    try {
+      console.log(name, username, email, sessionStorage.getItem('email'));
+      const prevEmail = sessionStorage.getItem('email');
+      console.log('key: ', avatarKey)
+      const response = await axios.put('http://localhost:5000/profile',
+        {
+          name,
+          bio,
+          username,
+          email,
+          prevEmail,
+          avatarKey,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-          }
-        );
-        sessionStorage.setItem('email', email);
-        sessionStorage.setItem('name', name);
-        sessionStorage.setItem('username', username);
-        sessionStorage.setItem('avatar', avatar);
-        const st = new StorageEvent('storage');
-        window.dispatchEvent(st);
-        setSuccess("Profile Information Updated")
-        return true
-      } catch(err) {
-        setUserError(err.response.data.error)
-        console.log(err)
-        return false
-      }
+        }
+      );
+      sessionStorage.setItem('email', email);
+      sessionStorage.setItem('bio', bio)
+      sessionStorage.setItem('name', name);
+      sessionStorage.setItem('username', username);
+      sessionStorage.setItem('avatar', avatar);
+      const st = new StorageEvent('storage');
+      window.dispatchEvent(st);
+      return true
+    } catch(err) {
+      setUserError(err.response.data.error)
+      console.log(err)
+      return false
+    }
 
+  };
+
+  const uploadFiles = async () => {
+    try {
+      console.log('files: ', file);
+
+      const formData = new FormData();
+      formData.append('avatar', file);
+      formData.append('key', sessionStorage.getItem('uid'));
+
+      const res = await axios.post('http://localhost:5000/upload', formData, { headers: {'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}`}})
+      console.log('response: ', res)
+      avatarKey = res.data.uid;
+      return true
+    } catch (err) {
+      console.log(err)
+      return false
+    }
+
+  }
+
+  const handleFile = (e) => {
+    setFile(e.target.files[0]);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setAvatar(reader.result);
     };
+    reader.readAsDataURL(e.target.files[0]);
+    setAvatarEdit(true)
+  }
 
-    const uploadFiles = async () => {
-      try {
-        console.log('files: ', file);
-
-        const formData = new FormData();
-        formData.append('avatar', file);
-        formData.append('key', sessionStorage.getItem('uid'));
-
-        const res = await axios.post('http://localhost:5000/upload', formData, { headers: {'Content-Type': 'multipart/form-data', Authorization: `Bearer ${localStorage.getItem('token')}`}})
-        console.log('response: ', res)
-        avatarKey = res.data.uid;
-        return true
-      } catch (err) {
-        console.log(err)
-        return false
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (!modalRef.current.contains(event.target)) {
+        setOpenModal(false);
       }
-
     }
 
-    const handleFile = (e) => {
-      setFile(e.target.files[0]);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setAvatar(reader.result);
-      };
-      reader.readAsDataURL(e.target.files[0]);
-      setAvatarEdit(true)
-    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <div className='modalBackground' >
@@ -111,7 +123,7 @@ function Modal({ setOpenModal }) {
                 setFile={setFile}
                 />
       ) : (
-        <div className="modalContainer">
+        <div className="modalContainer" ref={modalRef} >
 
             <div className="title">
                 <CloseIcon className='close' onClick={() => setOpenModal(false)} />
@@ -137,6 +149,15 @@ function Modal({ setOpenModal }) {
                 value={name}
                 placeholder="name"
                 type="text"/>
+            </div>
+
+            <div className="bio__edit">
+              <label>Bio</label>
+                <input
+                  onChange={e => setBio( e.target.value )}
+                  value={bio}
+                  placeholder="how you feeling?"
+                  type="text"/>
             </div>
 
             <div className="username__edit">

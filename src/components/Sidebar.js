@@ -13,10 +13,6 @@ import ProfileBar from "./ProfileBar";
 
 function Sidebar({ tweetRef, handleLogout, loggedIn }){
 
-    const logout = () => {
-        handleLogout();
-    }
-
     return (
     <div className="sidebar">
         <Link to='/' >
@@ -43,14 +39,12 @@ function Sidebar({ tweetRef, handleLogout, loggedIn }){
                 <Button
                     variant="outlined"
                     className="sidebar__tweet"
-                    onClick={() => tweetRef.current.focus()}
+                    onClick={() => tweetRef.current !== null ? tweetRef.current.focus() : window.location.href = '/'}
                     fullWidth >
                     Tweet
                 </Button>
                 <div className="profile__bar">
-                    <ProfileBar className="profile__contents" />
-                    <Button className="logout__comp" onClick={logout}>
-                    Logout</Button>
+                    <ProfileBar className="profile__contents" handleLogout={handleLogout} />
                 </div>
             </div>
         ) : (

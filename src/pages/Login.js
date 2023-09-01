@@ -20,6 +20,7 @@ const Login = ({ setLoggedIn }) => {
             const response = await axios.post('http://localhost:5000/login', { email, password });
             sessionStorage.setItem('uid', response.data.user.uid)
             sessionStorage.setItem('name', response.data.user.name)
+            sessionStorage.setItem('bio', response.data.user.bio == null ? '' : response.data.user.bio)
             sessionStorage.setItem('username', response.data.user.username)
             sessionStorage.setItem('email', response.data.user.email)
             sessionStorage.setItem('avatar', response.data.url)
@@ -42,6 +43,7 @@ const Login = ({ setLoggedIn }) => {
             const response = await axios.post('http://localhost:5000/signup', { name, password, email, username });
             sessionStorage.setItem('uid', response.data.user.uid)
             sessionStorage.setItem('name', response.data.user.name)
+            sessionStorage.setItem('bio', response.data.user.bio)
             sessionStorage.setItem('username', response.data.user.username)
             sessionStorage.setItem('email', response.data.user.email)
             sessionStorage.setItem('avatar', response.data.user.avatar)

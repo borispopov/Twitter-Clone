@@ -96,7 +96,7 @@ app.post('/login', async (req, res) => {
 // Insert profile information into db
 app.put('/profile', authenticateToken, async (req, res) => {
   try {
-    const { name, username, email, prevEmail, avatarKey } = req.body;
+    const { name, bio, username, email, prevEmail, avatarKey } = req.body;
 
     const checker = await pool.query("SELECT * FROM users WHERE (email = $1 OR username = $2) AND email <> $3", [email.toLowerCase(), username.toLowerCase(), prevEmail.toLowerCase()])
 
@@ -104,7 +104,7 @@ app.put('/profile', authenticateToken, async (req, res) => {
       if (checker.rows[0].email == email.toLowerCase()) return res.status(401).json({error: "Email Already Registered"});
       else if (checker.rows[0].username == username.toLowerCase()) return res.status(401).json({error: "Username Already in Use"});
     }
-    const user = await pool.query("UPDATE users SET name = $1, username = $2, email = $3, avatar = $5 WHERE email = $4 ", [name, username.toLowerCase(), email.toLowerCase(), prevEmail.toLowerCase(), avatarKey])
+    const user = await pool.query("UPDATE users SET name = $1, username = $2, email = $3, avatar = $5, bio = $6 WHERE email = $4 ", [name, username.toLowerCase(), email.toLowerCase(), prevEmail.toLowerCase(), avatarKey, bio])
     return res.json({ user })
   } catch (err) {
     console.log(err);

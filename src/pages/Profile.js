@@ -50,7 +50,7 @@ const Profile = ({ handleLogout, loggedIn }) => {
         <div className="info__container">
           <h3>{sessionStorage.getItem('name')}</h3>
           <p className="post__headerSpecial" >{'@' + sessionStorage.getItem('username')}</p>
-          <p>{sessionStorage.getItem('bio')}</p>
+          <p className="bio" >{sessionStorage.getItem('bio')}</p>
         </div>
         <hr style={{borderTop: '1px solid rgba(222, 222, 222, 1)', borderBottom: 'none', marginTop: '10px'}} />
         <div className="user__posts">

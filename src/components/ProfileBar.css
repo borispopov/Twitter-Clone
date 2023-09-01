@@ -1,8 +1,17 @@
+.profile__background {
+    width: 100%;
+}
+
 .profileCtn {
     display: flex;
     padding: 10px;
     align-items: center;
     cursor: pointer;
+    width: 100%;
+}
+
+.profileCtn .MuiSvgIcon-root {
+    margin-left: auto;
 }
 
 .profile__cont {
@@ -25,4 +34,29 @@
     background-color: var(--twitter-background);
     border-radius: 40px;
     transition: background-color 50ms ease-out;
+}
+
+.logging__out {
+    position: absolute;
+    transform: translate(0, -100px);
+    background-color: white;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    border-radius: 10px;
+}
+
+.logging__out button {
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    transition: background-color 0.1s ease-in-out;
+    text-align: left;
+}
+
+.logging__out button:hover {
+    background-color: rgb(245, 245, 245);
 }
